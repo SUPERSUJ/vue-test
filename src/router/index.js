@@ -31,6 +31,9 @@ export default new Router({
           path: 'account-list',
           name: '账号列表',
           component: accountList,
+          meta: {
+            keepAlive: true,
+          },
         },
         {
           path: 'role-list',

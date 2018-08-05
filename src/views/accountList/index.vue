@@ -15,10 +15,10 @@
       <el-table-column prop="end_login_time" label="最后登录时间" min-width="170"></el-table-column>
       <el-table-column fixed="right" label="操作" min-width="250">
         <template slot-scope="scope">
-          <el-button v-if="scope.row.use_status === '0'" type="primary" size="small" @click="start(scope.row)">启用</el-button>
-          <el-button v-else-if="scope.row.use_status === '1'" type="danger" size="small" @click="stop(scope.row)">停用</el-button>
-          <el-button type="primary" size="small" @click="auth(scope.row)">授权</el-button>
-          <el-button type="primary" size="small" @click="resetPwd(scope.row)">重置密码</el-button>
+          <el-button v-if="scope.row.use_status === '0'" type="text" size="small" @click="start(scope.row)">启用</el-button>
+          <el-button v-else-if="scope.row.use_status === '1'" type="text" size="small" @click="stop(scope.row)">停用</el-button>
+          <el-button type="text" size="small" @click="auth(scope.row)">授权</el-button>
+          <el-button type="text" size="small" @click="resetPwd(scope.row)">重置密码</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -40,6 +40,7 @@
         <el-button :loading="resetLoad" size="small" type="primary" @click="resetSubmit">提交</el-button>
       </div>
     </el-dialog>
+    <test-com></test-com>
   </el-row>
 </template>
 
@@ -96,6 +97,12 @@ export default {
   },
   created() {
     this.getTableData();
+  },
+  mounted() {
+    console.log('this: ', this);
+    console.log('this.$vnode: ', this.$vnode);
+    console.log('this.$vnode.parent: ', this.$vnode.parent);
+    console.log('this.$vnode.data.keepAlive: ', this.$vnode.data.keepAlive);
   },
   methods: {
     getTableData() {
