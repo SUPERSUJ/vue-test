@@ -8,7 +8,7 @@
 export default {
   name: 'testCom',
   mounted() {
-    console.log('testComs.$vnode.parent: ', this.$vnode);
+    console.log('testComs.parent: ', this.$parent.$parent);
   },
 };
 </script>

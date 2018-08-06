@@ -69,7 +69,7 @@ export default {
     };
     return {
       form: {
-        search: '',
+        search: 'search',
       },
       loadTableData: false,
       tableData: [],
@@ -103,6 +103,7 @@ export default {
     console.log('this.$vnode: ', this.$vnode);
     console.log('this.$vnode.parent: ', this.$vnode.parent);
     console.log('this.$vnode.data.keepAlive: ', this.$vnode.data.keepAlive);
+    console.log('this.$vnode.parent.componentInstance: ', this.$vnode.parent.componentInstance);
   },
   methods: {
     getTableData() {

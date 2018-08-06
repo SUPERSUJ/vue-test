@@ -14,10 +14,20 @@ npm run dev
 this.$children
 // 获取父组件
 this.$parent
-// 虚拟DOM
+// 获取组件虚拟DOM
 this.$vnode
-// 当前组件的第一个元素（template的子元素）
-this.$vnode.parent
-// 判断组件是否缓存
+// 获取组件实例
+this.$vnode.componentInstance
+this
+// 判断当前组件是否缓存
 this.$vnode.data.keepAlive
+// 获取父组件
+this.$parent
 ```
+>父组件是keep-alive，用this.$parent获取不到keep-alive的实例。this.$vnode.parent.componentInstance可以拿到keep-alive的实例
+
+###this.$vnode.parent.componentInstance(keep-alive实例)的属性
+*cache (对象，缓存的页面组件$vnode)
+*exclude
+*include
+*max
