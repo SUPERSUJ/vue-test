@@ -26,8 +26,8 @@ this.$parent
 ```
 >父组件是keep-alive，用this.$parent获取不到keep-alive的实例。this.$vnode.parent.componentInstance可以拿到keep-alive的实例
 
-###this.$vnode.parent.componentInstance(keep-alive实例)的属性
-*cache (对象，缓存的页面组件$vnode)
-*exclude
-*include
-*max
+### this.$vnode.parent.componentInstance(keep-alive实例)的属性
+* cache (对象，缓存的页面组件$vnode)
+* exclude
+* include
+* max
