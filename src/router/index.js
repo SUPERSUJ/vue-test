@@ -9,6 +9,7 @@ const accountList = (r) => require.ensure([], () => r(require('@views/accountLis
 const roleList = (r) => require.ensure([], () => r(require('@views/roleList')), 'roleList');
 const userList = (r) => require.ensure([], () => r(require('@views/userList')), 'userList');
 const userGroupList = (r) => require.ensure([], () => r(require('@views/userGroupList')), 'userGroupList');
+const keepAliveMax = (r) => require.ensure([], () => r(require('@views/keepAliveMax')), 'keepAliveMax');
 
 export default new Router({
   routes: [
@@ -49,6 +50,11 @@ export default new Router({
           path: 'user-group',
           name: '用户组列表',
           component: userGroupList,
+        },
+        {
+          path: 'keep-alive-max',
+          name: 'keepAliveMax',
+          component: keepAliveMax,
         },
       ],
     },

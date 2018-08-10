@@ -66,6 +66,10 @@ export default {
             },
           ],
         },
+        {
+          name: 'keepAliveMax',
+          path: '/keep-alive-max',
+        },
       ],
     };
   },
