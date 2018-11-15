@@ -70,6 +70,10 @@ export default {
           name: 'keepAliveMax',
           path: '/keep-alive-max',
         },
+        {
+          name: 'vue-hooks',
+          path: '/vue-hooks',
+        },
       ],
     };
   },
