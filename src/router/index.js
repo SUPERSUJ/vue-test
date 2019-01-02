@@ -11,6 +11,7 @@ const userList = (r) => require.ensure([], () => r(require('@views/userList')), 
 const userGroupList = (r) => require.ensure([], () => r(require('@views/userGroupList')), 'userGroupList');
 const keepAliveMax = (r) => require.ensure([], () => r(require('@views/keepAliveMax')), 'keepAliveMax');
 const vueHooks = (r) => require.ensure([], () => r(require('@views/vueHooks')), 'vueHooks');
+const emitter = (r) => require.ensure([], () => r(require('@views/emitter')), 'emitter');
 
 export default new Router({
   routes: [
@@ -61,6 +62,11 @@ export default new Router({
           path: 'vue-hooks',
           name: 'vueHooks',
           component: vueHooks,
+        },
+        {
+          path: 'emitter',
+          name: 'emitter',
+          component: emitter,
         },
       ],
     },

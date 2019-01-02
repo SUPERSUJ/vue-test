@@ -174,5 +174,10 @@ module.exports = {
     "import/prefer-default-export": "off",
     // @fixable 禁止出现没必要的 bind
     'no-extra-bind': 'error',
+    // 禁止出现没必要的 call 或 apply
+    'no-useless-call': 'error',
+    // @fixable 必须使用 ... 而不是 apply，比如 foo(...args)
+    // @off  apply 很常用
+    'prefer-spread': 'off',
   }
 }

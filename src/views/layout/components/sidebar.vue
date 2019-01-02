@@ -74,6 +74,10 @@ export default {
           name: 'vue-hooks',
           path: '/vue-hooks',
         },
+        {
+          name: '派发与广播',
+          path: '/emitter',
+        },
       ],
     };
   },

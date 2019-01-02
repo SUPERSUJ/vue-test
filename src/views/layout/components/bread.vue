@@ -4,7 +4,7 @@
       <transition-group name="breadcrumb">
         <el-breadcrumb-item
           v-for="(item, index) in $route.matched"
-          :key="index"><span :class="{'bread-name': index < getLastIndex}">{{item.name}}</span>
+          :key="item.path"><span :class="{'bread-name': index < getLastIndex}">{{item.name}}</span>
         </el-breadcrumb-item>
       </transition-group>
     </el-breadcrumb>
