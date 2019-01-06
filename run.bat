@@ -1,1 +1,1 @@
-cmd
+cmd /c "npm run dev"

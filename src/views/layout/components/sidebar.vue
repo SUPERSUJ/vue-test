@@ -78,6 +78,10 @@ export default {
           name: '派发与广播',
           path: '/emitter',
         },
+        {
+          name: 'sForm',
+          path: '/sForm',
+        },
       ],
     };
   },

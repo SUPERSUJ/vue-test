@@ -12,6 +12,7 @@ const userGroupList = (r) => require.ensure([], () => r(require('@views/userGrou
 const keepAliveMax = (r) => require.ensure([], () => r(require('@views/keepAliveMax')), 'keepAliveMax');
 const vueHooks = (r) => require.ensure([], () => r(require('@views/vueHooks')), 'vueHooks');
 const emitter = (r) => require.ensure([], () => r(require('@views/emitter')), 'emitter');
+const sForm = (r) => require.ensure([], () => r(require('@views/sForm')), 'sForm');
 
 export default new Router({
   routes: [
@@ -67,6 +68,11 @@ export default new Router({
           path: 'emitter',
           name: 'emitter',
           component: emitter,
+        },
+        {
+          path: 'sForm',
+          name: 'sForm',
+          component: sForm,
         },
       ],
     },
