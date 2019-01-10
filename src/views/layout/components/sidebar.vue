@@ -86,6 +86,10 @@ export default {
           name: 'checkbox',
           path: '/checkbox',
         },
+        {
+          name: 'display',
+          path: '/display',
+        },
       ],
     };
   },

@@ -4,9 +4,10 @@
     <div class="main-container">
       <p-header></p-header>
       <el-row class="main">
-        <keep-alive>
+        <!-- <keep-alive>
           <router-view></router-view>
-        </keep-alive>
+        </keep-alive> -->
+        <router-view></router-view>
       </el-row>
     </div>
   </div>
