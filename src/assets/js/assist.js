@@ -13,6 +13,56 @@ function findComponentUpward(context, componentName) {
   return parent;
 }
 
+// 由一个组件，向上找到所有的指定组件
+function findComponentsUpward(context, componentName) {
+  let parents = [];
+  const parent = context.$parent;
+  if (parent) {
+    if (parents.$options.name === componentName) {
+      parents.push(parent);
+    }
+    return findComponentsUpward(parent, componentName);
+  }
+  return [];
+}
+
+// 由一个组件，向下找到指定组件
+function findComponentDownward(context, componentName) {
+  const childrens = context.$children;
+  let children = null;
+  if (childrens.length) {
+    for (let child of childrens) {
+      const name = child.$options.name;
+
+      if (name === componentName) {
+        children = child;
+        break;
+      } else {
+        children = findComponentDownward(child, componentName);
+        if (children) {
+          break;
+        }
+      }
+    }
+  }
+  return children;
+}
+
+
+// 由一个组件，向下找到所有的指定组件
+function findComponentsDownward(context, componentName) {
+  return context.$children.reduce((components, child) => {
+    if (child.$options.name === componentName) {
+      components.push(child);
+    }
+    const foundChilds = findComponentsDownward(child, componentName);
+    return components.concat(foundChilds);
+  }, []);
+}
+
 export {
   findComponentUpward,
+  findComponentsUpward,
+  findComponentDownward,
+  findComponentsDownward,
 };

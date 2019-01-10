@@ -13,6 +13,7 @@ const keepAliveMax = (r) => require.ensure([], () => r(require('@views/keepAlive
 const vueHooks = (r) => require.ensure([], () => r(require('@views/vueHooks')), 'vueHooks');
 const emitter = (r) => require.ensure([], () => r(require('@views/emitter')), 'emitter');
 const sForm = (r) => require.ensure([], () => r(require('@views/sForm')), 'sForm');
+const checkbox = (r) => require.ensure([], () => r(require('@views/checkbox')), 'checkbox');
 
 export default new Router({
   routes: [
@@ -73,6 +74,11 @@ export default new Router({
           path: 'sForm',
           name: 'sForm',
           component: sForm,
+        },
+        {
+          path: 'checkbox',
+          name: 'checkbox',
+          component: checkbox,
         },
       ],
     },

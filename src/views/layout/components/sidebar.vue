@@ -82,6 +82,10 @@ export default {
           name: 'sForm',
           path: '/sForm',
         },
+        {
+          name: 'checkbox',
+          path: '/checkbox',
+        },
       ],
     };
   },
