@@ -15,6 +15,7 @@ const emitter = (r) => require.ensure([], () => r(require('@views/emitter')), 'e
 const sForm = (r) => require.ensure([], () => r(require('@views/sForm')), 'sForm');
 const checkbox = (r) => require.ensure([], () => r(require('@views/checkbox')), 'checkbox');
 const display = (r) => require.ensure([], () => r(require('@views/display')), 'display');
+const select = (r) => require.ensure([], () => r(require('@views/select')), 'select');
 
 export default new Router({
   routes: [
@@ -85,6 +86,11 @@ export default new Router({
           path: 'display',
           name: 'display',
           component: display,
+        },
+        {
+          path: 'select',
+          name: 'select',
+          component: select,
         },
       ],
     },

@@ -90,6 +90,10 @@ export default {
           name: 'display',
           path: '/display',
         },
+        {
+          name: 'select',
+          path: '/select',
+        },
       ],
     };
   },
