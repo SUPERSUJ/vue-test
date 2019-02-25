@@ -94,6 +94,18 @@ export default {
           name: 'select',
           path: '/select',
         },
+        {
+          name: 'render',
+          path: '/render',
+        },
+        {
+          name: 'scroll',
+          path: '/scroll',
+        },
+        {
+          name: 'zoomImg',
+          path: '/zoomImg',
+        },
       ],
     };
   },

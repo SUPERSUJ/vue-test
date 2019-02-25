@@ -72,8 +72,10 @@ export default {
       }
 
       if (this.component) {
-        this.$refs.display.removeChild(this.$components.$el);
-        this.component.$destory();
+        console.log(this);
+        console.log(this.component);
+        this.$refs.display.removeChild(this.component.$el);
+        this.component.$destroy();
         this.component = null;
       }
     },

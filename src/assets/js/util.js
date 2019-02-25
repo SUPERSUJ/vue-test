@@ -469,3 +469,29 @@ export const screenW = getScreenW();
 
 // 是否是小屏幕
 export const isMinScreen = screenW <= MINSCREENPX;
+
+// 元素相对文档的距离
+export function getOffset(target) {
+  let left = target.offsetLeft;
+  let top = target.offsetTop;
+  let parent = target.offsetParent;
+  while (parent) {
+    left += parent.offsetLeft;
+    top += parent.offsetTop;
+    parent = parent.offsetParent;
+  }
+  return {
+    left,
+    top,
+  };
+}
+
+// 横轴文档滚动距离
+export function getScrollTop() {
+  return window.pageYOffset || document.documentElement.scrollTop;
+}
+
+// 纵轴文档滚动距离
+export function getScrollLeft() {
+  return window.pageXOffset || document.documentElement.scrollLeft;
+}

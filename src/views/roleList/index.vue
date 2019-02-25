@@ -64,9 +64,9 @@ export default {
     this.getTableData();
   },
   mounted() {
-    // console.log('this: ', this);
-    // console.log('this.$options: ', this.$options);
-    // console.log('this.$vnode: ', this.$vnode);
+    console.log('this: ', this);
+    console.log('this.$options: ', this.$options);
+    console.log('this.$vnode: ', this.$vnode);
     // console.log('this.$vnode.parent: ', this.$vnode.parent);
     // console.log('this.$vnode.data.keepAlive: ', this.$vnode.data.keepAlive);
     // console.log('this.$vnode.parent.componentInstance: ', this.$vnode.parent.componentInstance);
