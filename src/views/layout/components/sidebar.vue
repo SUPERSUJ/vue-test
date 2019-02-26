@@ -106,6 +106,10 @@ export default {
           name: 'zoomImg',
           path: '/zoomImg',
         },
+        {
+          name: 'calendar',
+          path: '/calendar',
+        },
       ],
     };
   },

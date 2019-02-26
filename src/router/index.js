@@ -19,6 +19,7 @@ const select = (r) => require.ensure([], () => r(require('@views/select')), 'sel
 const render = (r) => require.ensure([], () => r(require('@views/render')), 'render');
 const scroll = (r) => require.ensure([], () => r(require('@views/scroll')), 'scroll');
 const zoomImg = (r) => require.ensure([], () => r(require('@views/zoomImg')), 'zoomImg');
+const calendar = (r) => require.ensure([], () => r(require('@views/calendar')), 'calendar');
 
 export default new Router({
   routes: [
@@ -109,6 +110,11 @@ export default new Router({
           path: 'zoomImg',
           name: 'zoomImg',
           component: zoomImg,
+        },
+        {
+          path: 'calendar',
+          name: 'calendar',
+          component: calendar,
         },
       ],
     },
