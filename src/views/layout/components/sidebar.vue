@@ -110,6 +110,10 @@ export default {
           name: 'calendar',
           path: '/calendar',
         },
+        {
+          name: 'css',
+          path: '/css',
+        },
       ],
     };
   },

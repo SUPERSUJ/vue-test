@@ -20,6 +20,7 @@ const render = (r) => require.ensure([], () => r(require('@views/render')), 'ren
 const scroll = (r) => require.ensure([], () => r(require('@views/scroll')), 'scroll');
 const zoomImg = (r) => require.ensure([], () => r(require('@views/zoomImg')), 'zoomImg');
 const calendar = (r) => require.ensure([], () => r(require('@views/calendar')), 'calendar');
+const css = (r) => require.ensure([], () => r(require('@views/css')), 'css');
 
 export default new Router({
   routes: [
@@ -115,6 +116,11 @@ export default new Router({
           path: 'calendar',
           name: 'calendar',
           component: calendar,
+        },
+        {
+          path: 'css',
+          name: 'css',
+          component: css,
         },
       ],
     },
