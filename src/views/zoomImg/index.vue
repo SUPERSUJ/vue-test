@@ -1,26 +1,34 @@
 <template>
   <div id="zoomImg" :style="setWH">
     <div
-      ref="small"
       class="small"
       :style="setWH"
       @mouseenter="enterImg"
       @mousemove="moveInImg"
       @mouseleave="leaveImg"
       >
-      <div ref="mask" v-show="maskShow" class="mask" :style="[
+      <div v-show="maskShow" class="mask" :style="[
         setHelfWH,
         {
           opacity: this.defaultConfig.opacity,
           background: this.defaultConfig.background,
+          top: maskTop,
+          left: maskLeft,
         },
       ]"></div>
       <img
         :src="src"
         :style="setWH"/>
     </div>
-    <div class="big" ref="big" v-show="bigShow" :style="setWH">
-      <img class="big-img" ref="bigImg" :src="src" :style="set2WH">
+    <div class="big" v-show="bigShow" :style="[setWH, {
+      [defaultConfig.position]: positionVal
+    }]">
+      <img class="big-img" :src="src" :style="[
+        set2WH,
+        {
+          top: bigImgTop,
+          left: bigImgLeft,
+        }]">
     </div>
   </div>
 </template>
@@ -55,6 +63,11 @@ export default {
       bigShow: false,
       maskShow: false,
       self: this,
+      maskTop: 0,
+      maskLeft: 0,
+      bigImgTop: 0,
+      bigImgLeft: 0,
+      positionVal: 0,
     };
   },
   computed: {
@@ -77,7 +90,7 @@ export default {
       };
     },
   },
-  mounted() {
+  created() {
     this.initZoomStyle();
   },
   methods: {
@@ -88,7 +101,7 @@ export default {
       let positions = ['left', 'right', 'top', 'bottom'];
       let hasPosition = positions.indexOf(this.defaultConfig.position) !== -1;
       if (hasPosition) {
-        this.$refs.big.style[this.defaultConfig.position] = `-${this.defaultConfig.width + this.defaultConfig.distance}px`;
+        this.positionVal = `-${this.defaultConfig.width + this.defaultConfig.distance}px`;
       }
     },
     setDistence(e) {
@@ -105,34 +118,34 @@ export default {
         this.topDistance <= this.defaultConfig.width / 4
         && this.leftDistance <= this.defaultConfig.width / 4
       ) {
-        this.$refs.mask.style.top = 0;
-        this.$refs.mask.style.left = 0;
-        this.$refs.bigImg.style.top = 0;
-        this.$refs.bigImg.style.left = 0;
+        this.maskTop = 0;
+        this.maskLeft = 0;
+        this.bigImgTop = 0;
+        this.bigImgLeft = 0;
       } else if (
         this.topDistance >= 3 * this.defaultConfig.width / 4
         && this.leftDistance <= this.defaultConfig.width / 4
       ) {
-        this.$refs.mask.style.top = `${this.defaultConfig.width / 2}px`;
-        this.$refs.mask.style.left = 0;
-        this.$refs.bigImg.style.top = `-${this.defaultConfig.width}px`;
-        this.$refs.bigImg.style.left = 0;
+        this.maskTop = `${this.defaultConfig.width / 2}px`;
+        this.maskLeft = 0;
+        this.bigImgTop = `-${this.defaultConfig.width}px`;
+        this.bigImgLeft = 0;
       } else if (
         this.topDistance <= this.defaultConfig.width / 4
         && this.leftDistance >= 3 * this.defaultConfig.width / 4
       ) {
-        this.$refs.mask.style.top = 0;
-        this.$refs.mask.style.left = `${this.defaultConfig.width / 2}px`;
-        this.$refs.bigImg.style.top = 0;
-        this.$refs.bigImg.style.left = `${-this.defaultConfig.width}px`;
+        this.maskTop = 0;
+        this.maskLeft = `${this.defaultConfig.width / 2}px`;
+        this.bigImgTop = 0;
+        this.bigImgLeft = `${-this.defaultConfig.width}px`;
       } else if (
         this.topDistance >= 3 * this.defaultConfig.width / 4
         && this.leftDistance >= 3 * this.defaultConfig.width / 4
       ) {
-        this.$refs.mask.style.top = `${this.defaultConfig.width / 2}px`;
-        this.$refs.mask.style.left = `${this.defaultConfig.width / 2}px`;
-        this.$refs.bigImg.style.top = `-${this.defaultConfig.width}px`;
-        this.$refs.bigImg.style.left = `-${this.defaultConfig.width}px`;
+        this.maskTop = `${this.defaultConfig.width / 2}px`;
+        this.maskLeft = `${this.defaultConfig.width / 2}px`;
+        this.bigImgTop = `-${this.defaultConfig.width}px`;
+        this.bigImgLeft = `-${this.defaultConfig.width}px`;
       }
       this.$nextTick(() => {
         this.maskShow = true;
@@ -152,38 +165,36 @@ export default {
     },
     moveInImg(e) {
       this.setDistence(e);
-      let mask = document.getElementsByClassName('mask')[0];
-      let bigImg = document.getElementsByClassName('big-img')[0];
       if (this.notTouchBorder()) {
-        mask.style.top = `${this.topDistance - this.defaultConfig.width / 4}px`;
-        mask.style.left = `${this.leftDistance - this.defaultConfig.width / 4}px`;
+        this.maskTop = `${this.topDistance - this.defaultConfig.width / 4}px`;
+        this.maskLeft = `${this.leftDistance - this.defaultConfig.width / 4}px`;
         // 放大的图反方向移动,大图的移动是小图的两倍
-        bigImg.style.top = `${-2 * (this.topDistance - this.defaultConfig.width / 4)}px`;
-        bigImg.style.left = `${-2 * (this.leftDistance - this.defaultConfig.width / 4)}px`;
+        this.bigImgTop = `${-2 * (this.topDistance - this.defaultConfig.width / 4)}px`;
+        this.bigImgLeft = `${-2 * (this.leftDistance - this.defaultConfig.width / 4)}px`;
       } else {
         if (
           this.leftDistance - this.defaultConfig.width / 4 >= 0
           && this.leftDistance - 3 * this.defaultConfig.width / 4 <= 0) {
-          mask.style.left = `${this.leftDistance - this.defaultConfig.width / 4}px`;
-          bigImg.style.left = `${-2 * (this.leftDistance - this.defaultConfig.width / 4)}px`;
+          this.maskLeft = `${this.leftDistance - this.defaultConfig.width / 4}px`;
+          this.bigImgLeft = `${-2 * (this.leftDistance - this.defaultConfig.width / 4)}px`;
         } else if (this.leftDistance < this.defaultConfig.width / 4) {
-          mask.style.left = '0px';
-          bigImg.style.left = '0px';
+          this.maskLeft = '0px';
+          this.bigImgLeft = '0px';
         } else if (this.leftDistance > 3 * this.defaultConfig.width / 4) {
-          mask.style.left = `${this.defaultConfig.width / 2}px`;
-          bigImg.style.left = `${-this.defaultConfig.width}px`;
+          this.maskLeft = `${this.defaultConfig.width / 2}px`;
+          this.bigImgLeft = `${-this.defaultConfig.width}px`;
         }
         if (
           this.topDistance - this.defaultConfig.width / 4 >= 0
           && this.topDistance - 3 * this.defaultConfig.width / 4 <= 0) {
-          mask.style.top = `${this.topDistance - this.defaultConfig.width / 4}px`;
-          bigImg.style.top = `${-2 * (this.topDistance - this.defaultConfig.width / 4)}px`;
+          this.maskTop = `${this.topDistance - this.defaultConfig.width / 4}px`;
+          this.bigImgTop = `${-2 * (this.topDistance - this.defaultConfig.width / 4)}px`;
         } else if (this.topDistance < this.defaultConfig.width / 4) {
-          mask.style.top = '0px';
-          bigImg.style.top = '0px';
+          this.maskTop = '0px';
+          this.bigImgTop = '0px';
         } else if (this.topDistance > 3 * this.defaultConfig.width / 4) {
-          mask.style.top = `${this.defaultConfig.width / 2}px`;
-          bigImg.style.top = `${-this.defaultConfig.width}px`;
+          this.maskTop = `${this.defaultConfig.width / 2}px`;
+          this.bigImgTop = `${-this.defaultConfig.width}px`;
         }
       }
     },

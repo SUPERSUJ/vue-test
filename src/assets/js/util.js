@@ -495,3 +495,8 @@ export function getScrollTop() {
 export function getScrollLeft() {
   return window.pageXOffset || document.documentElement.scrollLeft;
 }
+
+// 随机获取整数
+export function getRandomInt(n) {
+  return Math.floor(Math.random() * (n + 1));
+}
