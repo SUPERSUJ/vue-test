@@ -15,10 +15,13 @@
     </div>
     <button @click="increase">n+</button>
     <div>{{n}}</div>
+    <scroll-img></scroll-img>
   </div>
 </template>
 
 <script>
+import scrollImg from './components/scrollImg';
+
 const MT = 15;
 // wheel、mousewheel、和DOMMouseScroll则是“滚轮事件”。
 // 这有什么不同呢？
@@ -90,6 +93,9 @@ export default {
     increase() {
       this.n++;
     },
+  },
+  components: {
+    scrollImg,
   },
 };
 </script>
