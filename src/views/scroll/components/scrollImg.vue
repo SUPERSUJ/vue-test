@@ -106,8 +106,10 @@ export default {
     right: 0;
     margin: 0 auto;
     .container-scroll {
-      width: 800%;
-      position: relative;
+      // width: 800%;
+      position: absolute;
+      white-space: nowrap;
+      display: block;
       left: 0;
       transition: all .5s;
       img {
@@ -116,7 +118,7 @@ export default {
         height: 70px;
         margin-right: 6px;
         cursor: pointer;
-        float: left;
+        // float: left;
         transition: all .3s;
         &.selected {
           border: 1px solid yellowgreen;

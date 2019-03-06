@@ -46,11 +46,12 @@ export default {
   methods: {
     handleWheel(e) {
       console.log(e);
-      const target = e.target;
+      const target = e.currentTarget; // 注意
       const eventDelta = e.wheelDelta || -e.deltaY * 3;
       console.log(Math.sign(eventDelta)); // 正 返回1，负，返回-1
       console.log(eventDelta);
       const section2 = target.querySelector('#section-2');
+      console.log(section2);
       if (this.timer) {
         clearTimeout(this.timer);
         this.timer = null;
