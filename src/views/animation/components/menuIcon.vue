@@ -1,0 +1,44 @@
+<template>
+  <div class="menu-icon" :class="{ change: doShow }" @click="doShow = !doShow">
+    <div class="bar1"></div>
+    <div class="bar2"></div>
+    <div class="bar3"></div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'menuIcon',
+  data() {
+    return {
+      doShow: false,
+    };
+  },
+};
+</script>
+
+<style lang="scss" scoped>
+.menu-icon {
+  display: inline-block;
+  cursor: pointer;
+  .bar1,
+  .bar2,
+  .bar3 {
+    width: 35px;
+    height: 5px;
+    background-color: #333;
+    margin: 6px 0;
+    transition: .4s;
+  }
+}
+.change .bar1 {
+  transform: rotate(-45deg) translate(-8px, 6px);
+  // 注意：这是先旋转在位移，translate(x, y)
+}
+.change .bar2 {
+  opacity: 0;
+}
+.change .bar3 {
+  transform: rotate(45deg) translate(-9px, -8px);
+}
+</style>

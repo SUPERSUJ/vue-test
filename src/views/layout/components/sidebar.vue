@@ -114,6 +114,10 @@ export default {
           name: 'css',
           path: '/css',
         },
+        {
+          name: 'animation',
+          path: '/animation',
+        },
       ],
     };
   },

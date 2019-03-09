@@ -1,13 +1,13 @@
 <template>
   <div>
     <!-- .prevent加了，滚动条不会动 -->
-    <div @wheel="handleWheel" style="height: 400px; overflow: auto; position: relative;">
+    <div @scroll="handleScroll" style="height: 400px; overflow: auto; position: relative;">
       <div class="section-1"></div>
       <div id="section-2">Scroll past this div</div>
       <div class="section-3"></div>
     </div>
     <div ref="scrollWrap" class="scroll-wrap">
-      <div ref="scrollContent" @wheel.prevent="barScroll" :style="{ left: left + 'px' }" class="scroll-content">
+      <div ref="scrollContent" @wheel.prevent="barWheel" :style="{ left: left + 'px' }" class="scroll-content">
         <div class="scroll-item" v-for="i in n" :key="i">
           {{i + '000000'}}
         </div>
@@ -44,7 +44,7 @@ export default {
     };
   },
   methods: {
-    handleWheel(e) {
+    handleScroll(e) {
       console.log(e);
       const target = e.currentTarget; // 注意
       const eventDelta = e.wheelDelta || -e.deltaY * 3;
@@ -65,7 +65,7 @@ export default {
         }
       }, 100);
     },
-    barScroll(e) {
+    barWheel(e) {
       let eventDelta = e.wheelDelta || -e.deltaY * 3;
       console.log('eventDelta: ', eventDelta);
       let scrollWrap = this.$refs.scrollWrap;

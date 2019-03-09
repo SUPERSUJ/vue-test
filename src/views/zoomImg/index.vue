@@ -1,41 +1,46 @@
 <template>
-  <div id="zoomImg" :style="setWH">
-    <div
-      class="small"
-      :style="setWH"
-      @mouseenter="enterImg"
-      @mousemove="moveInImg"
-      @mouseleave="leaveImg"
-      >
-      <div v-show="maskShow" class="mask" :style="[
-        setHelfWH,
-        {
-          opacity: this.defaultConfig.opacity,
-          background: this.defaultConfig.background,
-          top: maskTop,
-          left: maskLeft,
-        },
-      ]"></div>
-      <img
-        :src="src"
-        :style="setWH"/>
+  <div>
+    <div id="zoomImg" :style="setWH">
+      <div
+        class="small"
+        :style="setWH"
+        @mouseenter="enterImg"
+        @mousemove="moveInImg"
+        @mouseleave="leaveImg"
+        >
+        <div v-show="maskShow" class="mask" :style="[
+          setHelfWH,
+          {
+            opacity: this.defaultConfig.opacity,
+            background: this.defaultConfig.background,
+            top: maskTop,
+            left: maskLeft,
+          },
+        ]"></div>
+        <img
+          :src="src"
+          :style="setWH"/>
+      </div>
+      <div class="big" v-show="bigShow" :style="[setWH, {
+        [defaultConfig.position]: positionVal
+      }]">
+        <img class="big-img" :src="src" :style="[
+          set2WH,
+          {
+            top: bigImgTop,
+            left: bigImgLeft,
+          }]">
+      </div>
     </div>
-    <div class="big" v-show="bigShow" :style="[setWH, {
-      [defaultConfig.position]: positionVal
-    }]">
-      <img class="big-img" :src="src" :style="[
-        set2WH,
-        {
-          top: bigImgTop,
-          left: bigImgLeft,
-        }]">
-    </div>
+    <h3>图片轮播</h3>
+    <slideshow></slideshow>
   </div>
 </template>
 
 <script>
 // import $ from 'jquery';
 import { getOffset, getScrollTop, getScrollLeft } from '@js/util';
+import slideshow from './components/slideshow';
 
 const defaultConfig = {
   width: 400,
@@ -202,6 +207,9 @@ export default {
       this.maskShow = false;
       this.bigShow = false;
     },
+  },
+  components: {
+    slideshow,
   },
 };
 </script>
