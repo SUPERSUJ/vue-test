@@ -16,11 +16,14 @@
     <button @click="increase">n+</button>
     <div>{{n}}</div>
     <scroll-img></scroll-img>
+    <h3>向下滚动隐藏导航栏</h3>
+    <navbar-hide-scroll></navbar-hide-scroll>
   </div>
 </template>
 
 <script>
 import scrollImg from './components/scrollImg';
+import navbarHideScroll from './components/navbarHideScroll';
 
 const MT = 15;
 // wheel、mousewheel、和DOMMouseScroll则是“滚轮事件”。
@@ -97,6 +100,7 @@ export default {
   },
   components: {
     scrollImg,
+    navbarHideScroll,
   },
 };
 </script>

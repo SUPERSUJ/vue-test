@@ -39,8 +39,8 @@ let key = this.$vnode.key == null
       : this.$vnode.key;
 ```
 
->wheel、mousewheel、和DOMMouseScroll则是“滚轮事件”。
->这有什么不同呢？
+>wheel、mousewheel、和DOMMouseScroll则是“滚轮事件”。这有什么不同呢？
+>
 >scroll检测的是滚动条的滚动，当滚动条不能滚动（到顶或到底）时
 >scroll便不再触发。而滚轮事件则不同，它监测的是鼠标滚轮是否滚动
 >只要在滚动，便会触发。scroll的默认滚动行为是不能禁止的,
