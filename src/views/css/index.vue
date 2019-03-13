@@ -4,12 +4,16 @@
       <el-tab-pane label="tooltip" name="tooltip">
         <tooltip style="margin-top: 100px;"></tooltip>
       </el-tab-pane>
+      <el-tab-pane label="percentageCircle" name="percentageCircle">
+        <percentage-circle style="margin-top: 100px;"></percentage-circle>
+      </el-tab-pane>
     </el-tabs>
   </div>
 </template>
 
 <script>
 import tooltip from './components/tooltip';
+import percentageCircle from './components/percentageCircle';
 
 export default {
   name: 'css',
@@ -20,6 +24,7 @@ export default {
   },
   components: {
     tooltip,
+    percentageCircle,
   },
 };
 </script>
