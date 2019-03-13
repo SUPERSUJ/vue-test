@@ -37,10 +37,13 @@
         <el-button :loading="addLoad" size="small" type="primary" @click="addSubmit">提交</el-button>
       </div>
     </el-dialog>
+    <special-table></special-table>
   </el-row>
 </template>
 
 <script>
+import specialTable from './components/specialTable';
+
 export default {
   name: 'roleList',
   data() {
@@ -104,6 +107,9 @@ export default {
         this.getTableData();
       }
     },
+  },
+  components: {
+    specialTable,
   },
 };
 </script>
