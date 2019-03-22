@@ -38,6 +38,80 @@ let key = this.$vnode.key == null
         (this.$vnode.componentOptions.tag ? `::${this.$vnode.componentOptions.tag}` : '')
       : this.$vnode.key;
 ```
+```
+this.$vnode.componentInstance === this // true
+computed -> _computedWatchers
+this.$props === this._props
+```
+```
+this.$vnode.tag // `vue-component-${id}-${name}`
+name this.$options.name
+
+$options
+  parent // VueComponent
+  propsData
+  _componentTag
+  _parentListeners
+  _parentVnode
+  _propKeys // Array [props中key]
+  _renderChildren
+  __proto__
+    beforeCreate // [beforeCreate, VuexInit, injectStyle, f()]
+    beforeDestory
+    components
+    computed
+    created // [created]
+    data // f()
+    destoryed // [destoryed]
+    directives // {}
+    filter // {}
+    methods // {}
+    mounted // mounted
+    name // String
+    props // {}
+    render // f()
+    staticRenderFns // []
+    _Ctor // {}
+      0: f VumComponent 方法
+        cid 就是上面id
+        component
+        diretive
+        extend
+        extendOptions
+        filter
+        mixin
+        options
+        sealedOptions
+        super
+        superOptions
+        use
+
+    __file // src/views/zoomImg/index.vue 文件路径
+    _base
+      cid: 0,
+      compile
+      component
+      delete
+      directive
+      extend
+      filter
+      mixin
+      nextTick
+      observable
+      options
+      set
+      use
+      util
+        defineReactive
+        extend
+        mergeOptions
+        warn
+        version: 2.6.9
+        _installedPlugins // vue.component注册的组件
+
+    _compiled // true
+    _scopeId // data-v-7763506e 就是element的tag属性
+```
 
 >wheel、mousewheel、和DOMMouseScroll则是“滚轮事件”。这有什么不同呢？
 >

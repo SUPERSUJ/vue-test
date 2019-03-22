@@ -98,6 +98,12 @@ export default {
   created() {
     this.initZoomStyle();
   },
+  mounted() {
+    console.log(this);
+    console.log(this.$vnode.componentInstance === this);
+    console.log(this.$props === this._props);
+    console.log(this._props);
+  },
   methods: {
     initZoomStyle() {
       if (!this.defaultConfig.position) {
