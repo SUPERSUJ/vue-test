@@ -25,6 +25,7 @@ this.$vnode.data.keepAlive
 this.$parent
 ```
 >父组件是keep-alive，用this.$parent获取不到keep-alive的实例。this.$vnode.parent.componentInstance可以拿到keep-alive的实例
+this.$parent是拿不到keep-alive的实例，返回的是keep-alive上面的组件实例
 
 ### this.$vnode.parent.componentInstance(keep-alive实例)的属性
 * cache (对象，缓存的页面组件$vnode，key对应this.$vnode.componentOptions.Ctor.cid，Ctor是函数)
@@ -46,7 +47,8 @@ this.$props === this._props
 ```
 this.$vnode.tag // `vue-component-${id}-${name}`
 name this.$options.name
-
+```
+```
 $options
   parent // VueComponent
   propsData
@@ -111,6 +113,35 @@ $options
 
     _compiled // true
     _scopeId // data-v-7763506e 就是element的tag属性
+```
+
+```
+$vnode // 即vnode
+  asyncFactory
+  asyncMeta
+  children
+  componentInstance
+  componentOptions
+  context
+  data
+  devtoolsMeta
+  elm
+  fnContext
+  fnScopeId
+  isAsyncPlaceholder
+  isCloned
+  isOnce
+  isRootInsert
+  isStatic
+  key
+  ns
+  parent
+  raw
+  tag
+  text
+  child
+
+$vnode.componentInstance // vnode对应的实例
 ```
 
 >wheel、mousewheel、和DOMMouseScroll则是“滚轮事件”。这有什么不同呢？

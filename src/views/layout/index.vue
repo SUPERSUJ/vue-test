@@ -4,10 +4,15 @@
     <div class="main-container">
       <p-header></p-header>
       <el-row class="main">
-        <!-- <keep-alive>
+        <!-- <div>
+          <keep-alive>
+            <router-view></router-view>
+          </keep-alive>
+        </div> -->
+        <keep-alive>
           <router-view></router-view>
-        </keep-alive> -->
-        <router-view></router-view>
+        </keep-alive>
+        <!-- <router-view></router-view> -->
       </el-row>
     </div>
   </div>
@@ -23,6 +28,9 @@ export default {
     isActive() {
       return this.$store.getters.sidebar.opened;
     },
+  },
+  mounted() {
+    console.log('layout: ', this);
   },
   components: {
     sidebar,
