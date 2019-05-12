@@ -44,6 +44,9 @@ import {
   Collapse,
   CollapseItem,
   Transfer,
+  Radio,
+  RadioGroup,
+  RadioButton,
 } from 'element-ui';
 
 // element ui 按需加载
@@ -87,6 +90,9 @@ Vue.use(Badge);
 Vue.use(Collapse);
 Vue.use(CollapseItem);
 Vue.use(Transfer);
+Vue.use(Radio);
+Vue.use(RadioGroup);
+Vue.use(RadioButton);
 
 Vue.use(Loading.directive);
 

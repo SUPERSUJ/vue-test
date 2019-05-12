@@ -40,11 +40,14 @@
         <el-button :loading="resetLoad" size="small" type="primary" @click="resetSubmit">提交</el-button>
       </div>
     </el-dialog>
+    <tmpl></tmpl>
     <!-- <test-com></test-com> -->
   </el-row>
 </template>
 
 <script>
+import tmpl from './tmpl';
+
 export default {
   name: 'accountList',
   data() {
@@ -150,6 +153,9 @@ export default {
         }
       });
     },
+  },
+  components: {
+    tmpl,
   },
 };
 </script>
