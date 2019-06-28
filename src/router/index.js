@@ -22,6 +22,8 @@ const zoomImg = (r) => require.ensure([], () => r(require('@views/zoomImg')), 'z
 const calendar = (r) => require.ensure([], () => r(require('@views/calendar')), 'calendar');
 const css = (r) => require.ensure([], () => r(require('@views/css')), 'css');
 const animation = (r) => require.ensure([], () => r(require('@views/animation')), 'animation');
+const selector = (r) => require.ensure([], () => r(require('@views/selector')), 'selector');
+const drag = (r) => require.ensure([], () => r(require('@views/drag')), 'drag');
 
 export default new Router({
   routes: [
@@ -127,6 +129,16 @@ export default new Router({
           path: 'animation',
           name: 'animation',
           component: animation,
+        },
+        {
+          path: 'selector',
+          name: 'selector',
+          component: selector,
+        },
+        {
+          path: 'drag',
+          name: 'drag',
+          component: drag,
         },
       ],
     },

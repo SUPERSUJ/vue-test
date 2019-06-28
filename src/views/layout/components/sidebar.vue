@@ -118,6 +118,14 @@ export default {
           name: 'animation',
           path: '/animation',
         },
+        {
+          name: '选择器',
+          path: '/selector',
+        },
+        {
+          name: '拖拽',
+          path: '/drag',
+        },
       ],
     };
   },

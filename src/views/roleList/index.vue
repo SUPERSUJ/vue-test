@@ -1,6 +1,6 @@
 <template>
   <el-row>
-    <el-form :inline="true" :model="form" @submit.native.prevent>
+    <!-- <el-form :inline="true" :model="form" @submit.native.prevent>
       <el-form-item label="">
         <el-input size="small" v-model.trim="form.search" @keyup.enter.native="search">
           <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
@@ -23,7 +23,6 @@
       </el-table-column>
     </el-table>
     <m-pagination ref="page" :total="total" @handleFn="handleFn"></m-pagination>
-    <!-- 添加角色 -->
     <el-dialog title="添加角色" :visible.sync="dialogAdd" custom-class="small">
       <el-form :model="addForm" label-width="80px">
         <el-form-item label="角色名称">
@@ -36,7 +35,7 @@
       <div slot="footer" class="level-center">
         <el-button :loading="addLoad" size="small" type="primary" @click="addSubmit">提交</el-button>
       </div>
-    </el-dialog>
+    </el-dialog> -->
     <special-table></special-table>
   </el-row>
 </template>

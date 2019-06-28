@@ -7,7 +7,7 @@
         </el-input>
       </el-form-item>
     </el-form>
-    <el-table v-loading="loadTableData" :data="tableData">
+    <el-table v-loading="loadTableData" :data="tableData" border>
       <el-table-column type="index" width="50"></el-table-column>
       <el-table-column prop="account_name" label="用户名" min-width="120"></el-table-column>
       <el-table-column prop="phone_number" label="手机号" min-width="120"></el-table-column>
@@ -67,4 +67,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+/deep/ .el-table__body-wrapper {
+  max-height: 380px;
+  overflow: auto;
+}
 </style>
