@@ -1,7 +1,10 @@
 <template>
   <div class="red">
     aa
+    <br>
+    {{aaa}}
     <bb></bb>
+    <button @click="update">forceUpdate</button>
   </div>
 </template>
 
@@ -11,6 +14,30 @@ import cc from './cc';
 
 export default {
   name: 'aa',
+  data() {
+    this.aaa = '1';
+    return {};
+  },
+  created() {
+    console.log('aa created');
+  },
+  beforeUpdate() {
+    console.log('aa beforeupdate');
+  },
+  updated() {
+    console.log('aa updated');
+  },
+  mounted() {
+    console.log('aa mounted');
+    console.log('aa this: ', this);
+  },
+  methods: {
+    update() {
+      this.aaa += '1';
+      this.$forceUpdate();
+      // 只触发beforeUpdate 和 updated 钩子
+    },
+  },
   components: {
     bb,
     cc,

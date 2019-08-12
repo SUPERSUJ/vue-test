@@ -10,6 +10,11 @@
       <el-tab-pane label="inputGroup" name="inputGroup">
         <input-group style="margin-top: 100px;"></input-group>
       </el-tab-pane>
+      <el-tab-pane label="viewPhotot" name="viewPhotot">
+        <div v-view>
+          <img src="../../assets/imgs/avatar.jpg" alt="" width="100" height="100">
+        </div>
+      </el-tab-pane>
     </el-tabs>
   </div>
 </template>

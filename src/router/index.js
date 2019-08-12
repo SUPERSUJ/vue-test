@@ -24,6 +24,7 @@ const css = (r) => require.ensure([], () => r(require('@views/css')), 'css');
 const animation = (r) => require.ensure([], () => r(require('@views/animation')), 'animation');
 const selector = (r) => require.ensure([], () => r(require('@views/selector')), 'selector');
 const drag = (r) => require.ensure([], () => r(require('@views/drag')), 'drag');
+const buttoncss = (r) => require.ensure([], () => r(require('@views/buttoncss')), 'buttoncss');
 
 export default new Router({
   routes: [
@@ -139,6 +140,11 @@ export default new Router({
           path: 'drag',
           name: 'drag',
           component: drag,
+        },
+        {
+          path: 'buttoncss',
+          name: 'buttoncss',
+          component: buttoncss,
         },
       ],
     },

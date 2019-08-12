@@ -6,6 +6,7 @@ import 'normalize.css/normalize.css';
 import '@/styles/index.scss';
 import App from './App';
 import router from './router';
+import './directive'; // 安装自定义指令
 import './config/elementui';
 import store from './store';
 import './icons'; // 注册svg-icon组件

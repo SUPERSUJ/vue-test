@@ -126,6 +126,10 @@ export default {
           name: '拖拽',
           path: '/drag',
         },
+        {
+          name: '按钮',
+          path: '/buttoncss',
+        },
       ],
     };
   },
