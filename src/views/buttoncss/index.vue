@@ -1,10 +1,15 @@
 <template>
   <div>
     <a v-ripple class="ripple">Click Me</a>
+    <div>
+      <btn1></btn1>
+    </div>
   </div>
 </template>
 
 <script>
+import btn1 from './components/btn1';
+
 let rippleFn;
 
 export default {
@@ -60,6 +65,9 @@ export default {
         rippleFn = null;
       },
     },
+  },
+  components: {
+    btn1,
   },
 };
 </script>
