@@ -130,6 +130,10 @@ export default {
           name: '按钮',
           path: '/buttoncss',
         },
+        {
+          name: 'image',
+          path: '/imgs',
+        },
       ],
     };
   },

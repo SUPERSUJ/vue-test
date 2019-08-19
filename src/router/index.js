@@ -25,6 +25,7 @@ const animation = (r) => require.ensure([], () => r(require('@views/animation'))
 const selector = (r) => require.ensure([], () => r(require('@views/selector')), 'selector');
 const drag = (r) => require.ensure([], () => r(require('@views/drag')), 'drag');
 const buttoncss = (r) => require.ensure([], () => r(require('@views/buttoncss')), 'buttoncss');
+const imgs = (r) => require.ensure([], () => r(require('@views/imgs')), 'imgs');
 
 export default new Router({
   routes: [
@@ -145,6 +146,11 @@ export default new Router({
           path: 'buttoncss',
           name: 'buttoncss',
           component: buttoncss,
+        },
+        {
+          path: 'imgs',
+          name: 'imgs',
+          component: imgs,
         },
       ],
     },

@@ -8,10 +8,10 @@
         :src="now.url"
         :alt="now.text"
         :style="{
-          'margin-left': -left + 'px',
-          'margin-top': -top + 'px',
+          'margin-left': left + 'px',
+          'margin-top': top + 'px',
           'opacity': opacity
-          }"
+        }"
          ref="showImg">
        <div class="view-close" @click="close">
          <img src="../../assets/imgs/imgClose.svg" alt="关闭" width="50" height="50">
@@ -24,7 +24,13 @@
             <img src="../../assets/imgs/prevImg.svg" alt="上一张" width="50" height="50">
           </span>
           <span>
-            <img class="rotate-btn" src="../../assets/imgs/imgRotate.svg" alt="旋转" width="50" height="50" @click="rotate">
+            <img
+              src="../../assets/imgs/imgRotate.svg"
+              alt="旋转"
+              width="50"
+              height="50"
+              @click="rotate"
+              class="rotate-btn">
           </span>
           <span class="v-next" @click="next">
             <img src="../../assets/imgs/nextImg.svg" alt="下一张" width="50" height="50">
@@ -38,6 +44,8 @@
 <script>
 export default {
   data() {
+    this.x = 0;
+    this.y = 0;
     return {
       now: {
         url: '',
@@ -50,8 +58,6 @@ export default {
       top: 0,
       open: false,
       first: false,
-      x: 0,
-      y: 0,
       reallyWidth: 0,
       reallyHeight: 0,
       size: 1,
@@ -64,8 +70,8 @@ export default {
     };
   },
   watch: {
-    open(val) {
-      if (val) {
+    open() {
+      if (this.open) {
         window.addEventListener('mousewheel', this.changeSize);
         document.body.style.overflow = 'hidden';
       } else {
@@ -113,25 +119,24 @@ export default {
     },
     // 图片布局
     showImg() {
-      const screen = document.documentElement.clientHeight;
-      const img = this.$refs.showImg;
+      let screenH = document.documentElement.clientHeight - 60;
+      let screenW = document.documentElement.clientWidth;
+      let img = this.$refs.showImg;
       img.style.height = 'auto';
       img.style.width = 'auto';
       this.reallyHeight = window.getComputedStyle(img).height.replace('px', '');
       this.reallyWidth = window.getComputedStyle(img).width.replace('px', '');
-      if ((screen - 100) < img.height) {
-        this.size = (screen - 100) / img.height;
+      if ((screenH - 100) < img.height) {
+        this.size = (screenH - 100) / img.height;
         this.size = parseFloat(this.size.toFixed(2));
-        img.style.height = `${screen - 100}px`;
+        img.style.height = `${screenH - 100}px`;
       } else {
         this.size = 1;
       }
       this.$nextTick(() => {
         this.opacity = 1;
-        this.top = img.height / 5;
-        this.left = img.width / 2;
-        img.style.top = '20%';
-        img.style.left = '50%';
+        this.top = (screenH - this.reallyHeight * this.size) / 2;
+        this.left = (screenW - this.reallyWidth * this.size) / 2;
       });
     },
     // 图片拖动
@@ -140,21 +145,18 @@ export default {
       window.addEventListener('touchmove', this.move);
       window.addEventListener('mouseup', this.leave);
       window.addEventListener('touchend', this.leave);
-      const old = window.getComputedStyle(this.$refs.showImg);
-      const x = old.left.replace('px', '');
-      const y = old.top.replace('px', '');
-      this.x = event.clientX ? event.clientX : event.touches[0].clientX;
-      this.x += ~(x);
-      this.y = event.clientY ? event.clientY : event.touches[0].clientY;
-      this.y += ~(y);
+      this.x = event.clientX;
+      this.y = event.clientY;
     },
     // 移动函数
     move(event) {
       event.preventDefault();
-      const nowX = event.clientX ? event.clientX : event.touches[0].clientX;
-      const nowY = event.clientY ? event.clientY : event.touches[0].clientY;
-      this.$refs.showImg.style.left = `${~~(nowX) - ~~(this.x)}px`;
-      this.$refs.showImg.style.top = `${nowY - this.y}px`;
+      let clientX = event.clientX;
+      let clientY = event.clientY;
+      this.left += clientX - this.x;
+      this.top += clientY - this.y;
+      this.x = clientX;
+      this.y = clientY;
     },
     leave() {
       window.removeEventListener('mousemove', this.move);
@@ -163,26 +165,40 @@ export default {
       window.removeEventListener('touchend', this.leave);
     },
     changeSize(event) {
+      let target = event.target;
+      if (target.tagName.toLowerCase() !== 'img') {
+        return;
+      }
+      let pointer = {
+        pageX: event.pageX,
+        pageY: event.pageY,
+      };
       this.showSize = true;
-      const change = event.deltaY;
-      const top = window.getComputedStyle(this.$refs.showImg).top.replace('px', '');
-      const left = window.getComputedStyle(this.$refs.showImg).left.replace('px', '');
+      let change = event.deltaY;
+      let diffWidth;
+      let diffHeight;
       if (change < 0) {
         if (this.size > 0.9 && this.size < 1) {
-          const num = 1 - this.size;
+          let num = 1 - this.size;
+          diffWidth = this.reallyWidth * num;
+          diffHeight = this.reallyHeight * num;
+          this.top -= diffHeight * ((pointer.pageY - this.top) / (this.reallyHeight * this.size));
+          this.left -= diffWidth * ((pointer.pageX - this.left) / (this.reallyWidth * this.size));
           this.size = 1;
-          this.$refs.showImg.style.top = `${~~(top) - num / 2 * this.reallyHeight}px`;
-          this.$refs.showImg.style.left = `${~~(left) - num / 2 * this.reallyWidth}px`;
         } else {
+          diffWidth = this.reallyWidth * 0.06;
+          diffHeight = this.reallyHeight * 0.06;
+          this.top -= diffHeight * ((pointer.pageY - this.top) / (this.reallyHeight * this.size));
+          this.left -= diffWidth * ((pointer.pageX - this.left) / (this.reallyWidth * this.size));
           this.size += 0.06;
-          this.$refs.showImg.style.top = `${~~(top) - 0.03 * this.reallyHeight}px`;
-          this.$refs.showImg.style.left = `${~~(left) - 0.03 * this.reallyWidth}px`;
         }
       } else {
         if (this.size > 0.12) {
+          diffWidth = this.reallyWidth * -0.06;
+          diffHeight = this.reallyHeight * -0.06;
+          this.top -= diffHeight * ((pointer.pageY - this.top) / (this.reallyHeight * this.size));
+          this.left -= diffWidth * ((pointer.pageX - this.left) / (this.reallyWidth * this.size));
           this.size -= 0.06;
-          this.$refs.showImg.style.top = `${~~(top) + 0.03 * this.reallyHeight}px`;
-          this.$refs.showImg.style.left = `${~~(left) + 0.03 * this.reallyWidth}px`;
         }
       }
       this.$nextTick(() => {
@@ -212,8 +228,8 @@ export default {
       this.message = '后面没有了哟!';
     },
     openView(e) {
-      const parentElem = e.currentTarget;
-      const target = e.target;
+      let parentElem = e.currentTarget;
+      let target = e.target;
       if (target.nodeName.toLowerCase() === 'img') {
         if (!this.first) {
           this.first = true;
@@ -228,7 +244,7 @@ export default {
         this.now.url = target.dataset.max || target.src;
         this.now.text = target.alt || '图片';
         this.opacity = 0;
-        const lists = Array.from(parentElem.querySelectorAll('img'));
+        let lists = Array.from(parentElem.querySelectorAll('img'));
         this.lists = lists.map((item, index) => {
           if (this.now.url === item.src) {
             this.nowId = index;
@@ -242,21 +258,24 @@ export default {
       }
     },
     rotate(e) {
-      let rotateBtn = e.target;
+      let self = e.target;
       this.rotateNum += 90;
-      this.setRotateAnimation(rotateBtn);
+      this.emitRotateBtnAnimation(self);
       let hasClass = (ele, cls) => ele.className.match(new RegExp(`(\\s|^)${cls}(\\s|$)`));
       if (!hasClass(this.$refs.showImg, 'rotate')) {
         this.$refs.showImg.className += ' rotate';
-        if (this.rotateNum === 90) {
-          // trigger reflow
-          rotateBtn.offsetHeight; // eslint-disable-line
-        }
       }
       if (hasClass(this.$refs.showImg, 'bg-show')) {
         this.$refs.showImg.className.replace(new RegExp('(?:^|\\s)bg-show(?:\\s|$)'), ' ');
       }
       this.setRotate(this.$refs.showImg);
+    },
+    emitRotateBtnAnimation(elem) {
+      elem.style.animationName = '';
+      elem.style.webkitAnimationName = '';
+      elem.offsetTop;  // eslint-disable-line
+      elem.style.animationName = 'rotate-btn-rotate';
+      elem.style.webkitAnimationName = 'rotate-btn-rotate';
     },
     setRotate(elem, rotateNum = this.rotateNum) {
       elem.style.webkitTransform = `rotate(${rotateNum}deg)`;
@@ -264,12 +283,6 @@ export default {
       elem.style.msTransform = `rotate(${rotateNum}deg)`;
       elem.style.OTransform = `rotate(${rotateNum}deg)`;
       elem.style.transform = `rotate(${rotateNum}deg)`;
-    },
-    setRotateAnimation(rotateBtn) {
-      rotateBtn.style.webkitAnimationName = null;
-      // trigger reflow
-      rotateBtn.offsetHeight; // eslint-disable-line
-      rotateBtn.style.webkitAnimationName = 'rotate-btn-rotate-180';
     },
   },
 };
@@ -296,8 +309,6 @@ export default {
         position: absolute;
         cursor: -webkit-grab;
         user-select: none;
-        top: 50%;
-        left: 50%;
         transition: transform 0.5s ease-in-out;
       }
 
@@ -329,6 +340,11 @@ export default {
         bottom: 0;
         background-color: rgba(0,0,0,.5);
 
+        .rotate-btn {
+          animation-duration: .5s;
+          animation-timing-function: ease-in-out;
+        }
+
         .show-control {
           width: 200px;
           margin: auto;
@@ -343,12 +359,6 @@ export default {
               position: relative;
               top: 4px;
             }
-          }
-
-          .rotate-btn {
-            transform-origin: 25px 25px;
-            animation-duration: .5s;
-            animation-timing-function: ease-in-out;
           }
         }
       }
@@ -476,7 +486,7 @@ export default {
 </style>
 
 <style>
-@keyframes rotate-btn-rotate-180 {
+@keyframes rotate-btn-rotate {
   0% {
     transform: rotate(0deg);
   }
@@ -488,3 +498,4 @@ export default {
   }
 }
 </style>
+
