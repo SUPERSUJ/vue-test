@@ -15,6 +15,12 @@
           <img src="../../assets/imgs/avatar.jpg" alt="" width="100" height="100">
         </div>
       </el-tab-pane>
+      <el-tab-pane label="loading" name="loading">
+        <loading></loading>
+        <div>
+          <img-list></img-list>
+        </div>
+      </el-tab-pane>
     </el-tabs>
   </div>
 </template>
@@ -23,18 +29,22 @@
 import tooltip from './components/tooltip';
 import percentageCircle from './components/percentageCircle';
 import inputGroup from './components/inputGroup';
+import loading from './components/loading';
+import imgList from './components/imgList';
 
 export default {
   name: 'css',
   data() {
     return {
-      activeName: 'tooltip',
+      activeName: 'loading',
     };
   },
   components: {
     tooltip,
     percentageCircle,
     inputGroup,
+    loading,
+    imgList,
   },
 };
 </script>
