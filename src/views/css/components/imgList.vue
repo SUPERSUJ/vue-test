@@ -1,11 +1,14 @@
 <template>
-  <ul>
-    <li v-for="(item, index) in data" :key="item.src" :class="{
-      'viewer-loading': item.loading,
-    }">
-      <img :src="item.src" alt="" @load="imgLoad" :data-index="index">
-    </li>
-  </ul>
+  <div class="img-list">
+    <ul :style="ulStyle" class="img-list-main">
+      <li v-for="(item, index) in data" :key="item.src" :class="{
+        'viewer-loading': item.loading,
+        'viewer-active': index === img_index,
+      }" @click="selected(index)">
+        <img :src="item.src" alt="" @load="imgLoad" :data-index="index">
+      </li>
+    </ul>
+  </div>
 </template>
 
 <script>
@@ -13,6 +16,7 @@ export default {
   name: 'imgList',
   data() {
     return {
+      img_index: 0,
       data: [{
         src: 'https://images.pexels.com/photos/3036355/pexels-photo-3036355.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500',
         loading: true,
@@ -40,10 +44,21 @@ export default {
       }],
     };
   },
+  computed: {
+    ulStyle() {
+      return {
+        width: `${this.data.length * 30}px`,
+        'margin-left': `-${this.img_index * 30 + 15}px`,
+      };
+    },
+  },
   methods: {
     imgLoad(e) {
       let index = e.path[0].dataset.index;
       this.data[index].loading = false;
+    },
+    selected(index) {
+      this.img_index = index;
     },
   },
 };
@@ -55,6 +70,12 @@ li {
   width: 30px;
   height: 50px;
   overflow: hidden;
+  transition: opacity .15s;
+  opacity: .5;
+  cursor: pointer;
+}
+.viewer-active {
+  opacity: 1;
 }
 img {
   height: 100%;
@@ -107,5 +128,19 @@ img {
   margin-top: -10px;
   width: 20px;
   box-sizing: border-box;
+}
+.img-list {
+  background-color: rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+}
+.img-list-main {
+  position: relative;
+  left: 50%;
+  box-sizing: content-box;
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: 0;
+  padding: 0;
+  transition: all 0.3s;
 }
 </style>
