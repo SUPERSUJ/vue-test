@@ -37,7 +37,15 @@ const app = {
         }, 1000);
       });
     },
-    actionB({ dispatch }) {
+    actionB(...args) {
+      console.log(args[0]);
+      let { dispatch } = args[0];
+      // commit 用于调用mutation，当前模块和其他模块；
+      // dispatch 用于调用action，当前模块和其他模块；
+      // getters 用于获取当前模块getter；
+      // state 用于获取当前模块state；
+      // rootState 用于获取其它模块state；
+      // rootGetters 用于获取其他模块getter；
       dispatch('actionA').then((data) => {
         console.log(data);
         console.log(2);
