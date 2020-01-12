@@ -17,6 +17,8 @@
         <div v-view>
           <img src="https://images.pexels.com/photos/3036355/pexels-photo-3036355.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500" alt="" width="100" height="100">
           <img src="https://images.pexels.com/photos/2568091/pexels-photo-2568091.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500" alt="" width="100" height="100">
+          <img src="https://images.pexels.com/photos/3039185/pexels-photo-3039185.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500" alt="" width="100" height="100">
+          <img src="https://d2r55xnwy6nx47.cloudfront.net/uploads/2019/08/Black-Hole_2880x1700_Lede.jpg" alt="" width="100" height="100">
         </div>
         <div v-view>
           <!-- <img src="https://images.pexels.com/photos/2819549/pexels-photo-2819549.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500" alt="" width="100" height="100"> -->
