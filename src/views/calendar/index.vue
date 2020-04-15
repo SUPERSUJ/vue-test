@@ -23,10 +23,13 @@
         <div v-for="(item, index) in dates" :key="index" class="date-item" :data-click="item.canClick" :data-index="index" :class="{active: index === activeIndex}">{{item.canClick ? item.text : '\&nbsp;'}}</div>
       </div>
     </div>
+    <calendar-dialog></calendar-dialog>
   </div>
 </template>
 
 <script>
+import calendarDialog from './components/calendarDialog';
+
 export default {
   name: 'calendar',
   data() {
@@ -97,6 +100,9 @@ export default {
       this.currentTime.setMonth(this.currentTime.getMonth() + 1);
       this.init();
     },
+  },
+  components: {
+    calendarDialog,
   },
 };
 </script>
