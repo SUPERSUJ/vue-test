@@ -4,6 +4,7 @@ import Vue from 'vue';
 import 'babel-polyfill';
 import 'normalize.css/normalize.css';
 import '@/styles/index.scss';
+import { init, bind } from '@mixins/notifyVisibilityChange';
 import App from './App';
 import router from './router';
 import './directive'; // 安装自定义指令
@@ -21,11 +22,15 @@ if (process.env.NODE_ENV === 'development') {
   Vue.config.devtools = true;
 }
 
+init();
+
 /* eslint-disable no-new */
-new Vue({
+const vm = new Vue({
   el: '#app',
   router,
   store,
   components: { App },
   template: '<App/>',
 });
+
+bind(vm);

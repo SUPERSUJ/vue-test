@@ -50,6 +50,14 @@ import tmpl from './tmpl';
 
 export default {
   name: 'accountList',
+  mixins: [{
+    pageVisible() {
+      console.log('mixins 页面显示出来了');
+    },
+    pageHidden() {
+      console.log('mixins 页面隐藏了');
+    },
+  }],
   data() {
     let validatePass = (rule, value, callback) => {
       if (value === '') {
@@ -113,7 +121,18 @@ export default {
     },
   },
   created() {
+    console.log('accountList created');
     this.getTableData();
+  },
+  pageVisible() {
+    console.log('页面显示出来了');
+  },
+  pageHidden() {
+    console.log('页面隐藏了');
+  },
+  mounted() {
+    console.log('accountList moundted');
+    console.log('accountList moundted this:', this);
   },
   methods: {
     getTableData() {
