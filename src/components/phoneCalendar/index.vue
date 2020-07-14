@@ -1,27 +1,35 @@
 <template>
-  <div
-    ref="phoneCalendar"
-    class="box"
-    @touchstart="touchStart"
-    @touchmove.stop.prevent="touchMove"
-    @touchend="touchEnd">
-    <div
-      class="content"
-      :style="{'transform': `translate3d(${-translateIndex*100}%, 0, 0)`}">
+  <div>
+    <div class="header">
       <div
-        v-for="(item, index) in calendarOfMonthShow"
+        v-for="(item, index) in weeks"
         :key="index"
-        class="item"
-        :style="{
-          transform: `translate3d(${(index-1+translateIndex + (isTouching ? touch.x : 0))*100}%, 0, 0)`,
-          transitionDuration: `${isTouching ? 0 : transitionDuration}s`,
-        }">
+        class="date-item">{{item}}</div>
+    </div>
+    <div
+      ref="phoneCalendar"
+      class="box"
+      @touchstart="touchStart"
+      @touchmove.stop.prevent="touchMove"
+      @touchend="touchEnd">
+      <div
+        class="content"
+        :style="{'transform': `translate3d(${-translateIndex*100}%, 0, 0)`}">
         <div
-          v-for="(date, i) in item"
-          :key="i"
-          class="date-item"
-          :class="setDateItemClass(date)">
-          {{date.text}}
+          v-for="(item, index) in calendarOfMonthShow"
+          :key="index"
+          class="item"
+          :style="{
+            transform: `translate3d(${(index-1+translateIndex + (isTouching ? touch.x : 0))*100}%, 0, 0)`,
+            transitionDuration: `${isTouching ? 0 : transitionDuration}s`,
+          }">
+          <div
+            v-for="(date, i) in item"
+            :key="i"
+            class="date-item"
+            :class="setDateItemClass(date)">
+            {{date.text}}
+          </div>
         </div>
       </div>
     </div>
@@ -56,6 +64,7 @@ export default {
         y: 0,
       }, // 本次touch事件，横向，纵向滑动的距离
       isTouching: false, // 是否正在滑动
+      weeks: ['日', '一', '二', '三', '四', '五', '六'],
     };
   },
   methods: {
@@ -100,6 +109,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.header {
+  margin: auto;
+  width: 500px;
+}
+
 .box {
   display: relative;
   width: 500px;
@@ -126,6 +140,7 @@ export default {
 }
 
 .date-item {
+  position: relative;
   display: inline-block;
   width: 14.284%;
   height: 83.33px;
@@ -136,7 +151,8 @@ export default {
 }
 
 .curr-date {
-  background-color: #1c71fb;
+  background: #1c71fb;
+  color: #ffffff;
 }
 
 .future-date {
