@@ -39,20 +39,13 @@ export default {
   data() {
     return {
       cols: [
-        [
-          {
-            name: '2019',
-            id: '2019',
-          },
-          {
-            name: '2020',
-            id: '2020',
-          },
-          {
-            name: '2021',
-            id: '2021',
-          },
-        ],
+        new Array(1).fill().map((_, i) => {
+          let year = i + 2019 + '';
+          return {
+            id: year,
+            name: year,
+          };
+        }),
       ],
       isTouchEnd: false,
       offsetY: 0,
@@ -65,7 +58,7 @@ export default {
     };
   },
   created() {
-    this.init(['2021']);
+    this.init(['2019']);
   },
   methods: {
     init(defaultData) {
@@ -89,6 +82,10 @@ export default {
     touchmove(e) {
       this.isTouchEnd = false;
       let touchMoveY = e.touches[0].pageY;
+      // 公式推导
+      // 当initPos为0, touchMoveY - this.touchStartY + 90 = translate
+      // 当initPos为36, touchMoveY - this.touchStartY + 90 - initPos = translate
+      // translate = 90 - (this.touchStartY - touchMoveY + this.initPos)
       this.offsetY = this.touchStartY - touchMoveY + this.initPos;
       if (this.offsetY < -36) {
         this.offsetY = -36;
@@ -107,9 +104,48 @@ export default {
     touchend(e) {
       let touchEndY = e.changedTouches[0].pageY;
       let touchChangedY = this.touchStartY - touchEndY + this.initPos;
-      this.isTouchEnd = true;
-      this.offsetY = touchChangedY % 36 > 36 / 2 ? Math.ceil(touchChangedY / 36) * 36 : Math.floor(touchChangedY / 36) * 36;
-      this.initPos = this.offsetY;
+      let touchMovedY = touchChangedY % 36 > 36 / 2 ? Math.ceil(touchChangedY / 36) * 36 : Math.floor(touchChangedY / 36) * 36;
+      if (touchMovedY < 0) {
+        this.isTouchEnd = true;
+        this.offsetY = 0;
+        this.initPos = this.offsetY;
+        return;
+      }
+      if (touchMovedY > (this.cols[this.colIndex].length - 1) * 36) {
+        this.isTouchEnd = true;
+        this.offsetY = (this.cols[this.colIndex].length - 1) * 36;
+        this.initPos = this.offsetY;
+        return;
+      }
+      let nowTime = Date.now();
+      let v = (touchEndY - this.lastMoveStart) / (nowTime - this.lastMoveTime);
+      this.stopInertiaMove = false;
+      let dir = v > 0 ? -1 : 1;
+      let deceleration = dir * 0.01;
+      let duration = v / deceleration;
+      let dist = v * duration / 2;
+      let inertiaMove = () => {
+        if (this.stopInertiaMove) {
+          return;
+        }
+        if (Math.abs(dist) < 0.5) {
+          this.isTouchEnd = true;
+          this.offsetY = Math[touchMovedY % 36 > 18 ? 'ceil' : 'floor'](touchMovedY / 36) * 36;
+          this.initPos = this.offsetY;
+          return;
+        }
+        this.offsetY = touchMovedY + dist;
+        dist /= 1.1;
+        touchMovedY += dist;
+        if (touchMovedY < 0) {
+          touchMovedY = 0;
+        }
+        if (touchMovedY > (this.cols[this.colIndex].length - 1) * 36) {
+          touchMovedY = (this.cols[this.colIndex].length - 1) * 36;
+        }
+        window.requestAnimationFrame(inertiaMove);
+      };
+      inertiaMove();
     },
   },
 };
