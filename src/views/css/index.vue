@@ -35,6 +35,9 @@
       <el-tab-pane label="phoneCalender" name="phoneCalender">
         <phone-calender></phone-calender>
       </el-tab-pane>
+      <el-tab-pane label="picker" name="picker">
+        <picker></picker>
+      </el-tab-pane>
     </el-tabs>
   </div>
 </template>
@@ -42,6 +45,7 @@
 <script>
 import { mapActions, mapMutations, mapGetters } from 'vuex';
 import phoneCalender from '@components/phoneCalendar';
+import picker from '@components/picker';
 import tooltip from './components/tooltip';
 import percentageCircle from './components/percentageCircle';
 import inputGroup from './components/inputGroup';
@@ -72,6 +76,7 @@ export default {
     loading,
     imgList,
     phoneCalender,
+    picker,
   },
 };
 </script>
