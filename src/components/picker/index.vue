@@ -39,7 +39,7 @@ export default {
   data() {
     return {
       cols: [
-        new Array(1).fill().map((_, i) => {
+        new Array(500).fill().map((_, i) => {
           let year = i + 2019 + '';
           return {
             id: year,
@@ -118,24 +118,29 @@ export default {
         return;
       }
       let nowTime = Date.now();
-      let v = (touchEndY - this.lastMoveStart) / (nowTime - this.lastMoveTime);
+      let v = (touchEndY - this.lastMoveStart) / (nowTime - this.lastMoveTime); // 滑动平均速度 速度 下拉是正，上拉是负
+      console.log('速度 v: ', v);
       this.stopInertiaMove = false;
-      let dir = v > 0 ? -1 : 1;
-      let deceleration = dir * 0.01;
-      let duration = v / deceleration;
-      let dist = v * duration / 2;
+      let dir = v > 0 ? -1 : 1; // dir 下拉是负，上拉是正
+      let deceleration = dir * 0.01; // deceleration 下拉是负，上拉是正
+      let duration = v / deceleration; // 下拉是负，上拉是负，都是负 , v 越小 ，duration越小，每帧移动距离dist 越小
+      console.log('duration 时间: ', duration);
+      let dist = v * duration / 2; // 下拉是负，上拉是正 duration / 2 类似于时间，如果去掉 / 2, 第一帧移动的距离很大，随便滑动跨度是50个
+      console.log('touchMovedY: ', touchMovedY);
       let inertiaMove = () => {
+        console.log('dist: ', dist);
         if (this.stopInertiaMove) {
           return;
         }
-        if (Math.abs(dist) < 0.5) {
+        if (Math.abs(dist) < 0.5) { // 距离小于0.5 直接归位
           this.isTouchEnd = true;
           this.offsetY = Math[touchMovedY % 36 > 18 ? 'ceil' : 'floor'](touchMovedY / 36) * 36;
           this.initPos = this.offsetY;
           return;
         }
+        console.log('this.offsetY: ', this.offsetY);
         this.offsetY = touchMovedY + dist;
-        dist /= 1.1;
+        dist /= 1.1; // 每帧移动距离越来越小
         touchMovedY += dist;
         if (touchMovedY < 0) {
           touchMovedY = 0;
