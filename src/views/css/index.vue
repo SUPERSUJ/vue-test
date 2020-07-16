@@ -38,6 +38,9 @@
       <el-tab-pane label="picker" name="picker">
         <picker></picker>
       </el-tab-pane>
+      <el-tab-pane label="下拉" name="damping">
+        <damping></damping>
+      </el-tab-pane>
     </el-tabs>
   </div>
 </template>
@@ -46,6 +49,7 @@
 import { mapActions, mapMutations, mapGetters } from 'vuex';
 import phoneCalender from '@components/phoneCalendar';
 import picker from '@components/picker';
+import damping from '@components/damping';
 import tooltip from './components/tooltip';
 import percentageCircle from './components/percentageCircle';
 import inputGroup from './components/inputGroup';
@@ -77,6 +81,7 @@ export default {
     imgList,
     phoneCalender,
     picker,
+    damping,
   },
 };
 </script>
