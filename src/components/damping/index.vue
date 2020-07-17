@@ -7,7 +7,7 @@
         transition: touching ? 'none' : 'height .25s, border-bottom-width .25s',
       }"
       class="loading">
-      正在加载中...
+      {{loading_text}}
     </div>
     <div
       ref="content"
@@ -167,6 +167,7 @@ export default {
       touching: false,
       markFirstDistance: -1,
       rectY: 0,
+      loading_text: '下拉更新',
     };
   },
   beforeDestroy() {
@@ -202,6 +203,7 @@ export default {
         // moveY 临界点是60，才会触发阻尼
         let overflowHeight = Math.max(0, moveY - LOADING_HEIGHT) - this.height / 2;
         if (overflowHeight > 0) {
+          this.loading_text = '释放加载';
           this.borderBottom = damping(overflowHeight);
           console.log('this.height: ', this.height);
           console.log('this.borderBottom: ', this.borderBottom);
@@ -230,9 +232,11 @@ export default {
       this.touchStartY = 0;
       this.markFirstDistance = -1;
       this.loading = false;
+      this.loading_text = '下拉更新';
     },
     getData() {
       this.loading = true;
+      this.loading_text = '加载中...';
       if (this.timer !== null) {
         clearTimeout(this.timer);
         this.timer = null;
