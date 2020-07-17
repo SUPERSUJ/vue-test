@@ -24,6 +24,8 @@
 </template>
 
 <script>
+// 参考代码
+// https://github.com/peng-yin/Picker
 function getItemIndex(id, arr) {
   for (let i = 0, len = arr.length; i < len; i++) {
     let item = arr[i];
@@ -98,7 +100,10 @@ export default {
       this.stopInertiaMove = true;
       if (nowTime - this.lastMoveTime > 300) {
         this.lastMoveTime = nowTime;
-        this.lastMoveStart = this.offsetY;
+        this.lastMoveStart = touchMoveY;
+        console.log('========================= enter 300');
+        console.log('this.lastMoveTime: ', this.lastMoveTime);
+        console.log('this.lastMoveStart: ', this.lastMoveStart);
       }
     },
     touchend(e) {

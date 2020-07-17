@@ -121,6 +121,8 @@
 </template>
 
 <script>
+// 代码参考
+// https://www.zhangxinxu.com/wordpress/2017/01/mobile-phone-drag-drop-inertia-loading/
 const LOADING_HEIGHT = 40;
 
 const step = [0, 20, 40, 60, 80, 100];
@@ -184,7 +186,12 @@ export default {
         return;
       }
       let distanceY = e.touches[0].pageY - this.touchStartY;
-      if (this.$refs.box.scrollTop === 0) {
+      let $box = this.$refs.box;
+      console.log('$box.scrollTop: ', $box.scrollTop);
+      console.log('$box.clientHeight: ', $box.clientHeight);
+      console.log('$box.scrollHeight: ', $box.scrollHeight);
+      console.log('$box.clientHeight === $box.scrollHeight: ', $box.clientHeight === $box.scrollHeight);
+      if ($box.scrollTop === 0) {
         if (distanceY > 0 || this.markFirstDistance > 0) {
           e.preventDefault();
         }
