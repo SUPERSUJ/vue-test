@@ -1,5 +1,5 @@
 <template>
-  <div class="box">
+  <div class="box" ref="box">
     <div
       :style="{
         'border-bottom-width': borderBottom + 'px',
@@ -158,6 +158,8 @@ const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + mi
 export default {
   name: 'damping',
   data() {
+    this.timer = null;
+    this.loading = false; // 是否在加载数据
     return {
       borderBottom: 0,
       height: 0,
@@ -166,6 +168,10 @@ export default {
       markFirstDistance: -1,
       rectY: 0,
     };
+  },
+  beforeDestroy() {
+    clearTimeout(this.timer);
+    this.timer = null;
   },
   methods: {
     touchstart(e) {
@@ -177,7 +183,7 @@ export default {
         return;
       }
       let distanceY = e.touches[0].pageY - this.touchStartY;
-      if (this.$refs.content.getElementsByClassName('ul')[0].scrollTop === 0) {
+      if (this.$refs.box.scrollTop === 0) {
         if (distanceY > 0 || this.markFirstDistance > 0) {
           e.preventDefault();
         }
@@ -186,7 +192,8 @@ export default {
         }
       }
       let moveY = distanceY - this.markFirstDistance;
-      if (this.markFirstDistance > 0) {
+      console.log('this.loading: ', this.loading);
+      if (this.markFirstDistance > 0 && !this.loading) {
         if (moveY < 0) {
           this.height = 0;
         } else {
@@ -196,18 +203,18 @@ export default {
         let overflowHeight = Math.max(0, moveY - LOADING_HEIGHT) - this.height / 2;
         if (overflowHeight > 0) {
           this.borderBottom = damping(overflowHeight);
+          console.log('this.height: ', this.height);
           console.log('this.borderBottom: ', this.borderBottom);
         }
       }
       this.rectY = moveY;
     },
     touchend() {
-      if (!this.touching) {
+      if (!this.touching || this.loading) {
         return;
       }
       if (this.markFirstDistance > 0 && this.rectY > 0) {
         if (this.rectY > LOADING_HEIGHT) {
-          this.touching = false;
           this.borderBottom = 0;
           this.getData();
         } else {
@@ -216,16 +223,23 @@ export default {
       }
     },
     origin() {
+      console.log('origin');
       this.touching = false;
       this.borderBottom = 0;
       this.height = 0;
       this.touchStartY = 0;
       this.markFirstDistance = -1;
+      this.loading = false;
     },
     getData() {
+      this.loading = true;
+      if (this.timer !== null) {
+        clearTimeout(this.timer);
+        this.timer = null;
+      }
       let sec = randomInt(2, 10) * 1000;
       console.log('sec: ', sec);
-      setTimeout(() => {
+      this.timer = setTimeout(() => {
         this.origin();
       }, sec);
     },
@@ -234,6 +248,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+ul {
+  margin: 0;
+  background: red;
+}
+
 .box {
   position: relative;
   width: 500px;
@@ -244,7 +263,6 @@ export default {
 }
 
 .loading {
-  height: 0;
   box-sizing: content-box;
   line-height: 40px;
   text-align: center;
