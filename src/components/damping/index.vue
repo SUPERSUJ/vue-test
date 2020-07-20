@@ -126,7 +126,7 @@
 const LOADING_HEIGHT = 40;
 
 const step = [0, 20, 40, 60, 80, 100];
-const rate = [1, 0.5, 0.4, 0.3, 0.1, 0.02];
+const rate = [1, 0.9, 0.7, 0.4, 0.1, 0.02];
 const stepMap = [];
 for (let i = 0, len = step.length - 1; i < len; i++) {
   let ret = 0;
@@ -200,6 +200,7 @@ export default {
         }
       }
       let moveY = distanceY - this.markFirstDistance;
+      console.log('this.markFirstDistance: ', this.markFirstDistance);
       console.log('this.loading: ', this.loading);
       if (this.markFirstDistance > 0 && !this.loading) {
         if (moveY < 0) {
@@ -220,6 +221,7 @@ export default {
     },
     touchend() {
       if (!this.touching || this.loading) {
+        console.log('touchend return');
         return;
       }
       if (this.markFirstDistance > 0 && this.rectY > 0) {
@@ -248,7 +250,7 @@ export default {
         clearTimeout(this.timer);
         this.timer = null;
       }
-      let sec = randomInt(2, 10) * 1000;
+      let sec = randomInt(2, 3) * 1000;
       console.log('sec: ', sec);
       this.timer = setTimeout(() => {
         this.origin();
