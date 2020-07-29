@@ -9,9 +9,9 @@
             <router-view></router-view>
           </keep-alive>
         </div> -->
-        <keep-alive>
-          <router-view></router-view>
-        </keep-alive>
+        <transition name="fade">
+          <router-view class="view"></router-view>
+        </transition>
         <!-- <router-view></router-view> -->
       </el-row>
     </div>
@@ -58,6 +58,17 @@ export default {
     overflow-y: auto;
     overflow-x: hidden;
   }
+}
+
+.fade-enter,
+.fade-leave-to {
+  transform: translateX(50px);
+}
+
+.view {
+  position: absolute;
+  width: 100%;
+  transition: transform .3s ease-out;
 }
 </style>
 

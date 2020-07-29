@@ -26,6 +26,7 @@ const selector = (r) => require.ensure([], () => r(require('@views/selector')), 
 const drag = (r) => require.ensure([], () => r(require('@views/drag')), 'drag');
 const buttoncss = (r) => require.ensure([], () => r(require('@views/buttoncss')), 'buttoncss');
 const imgs = (r) => require.ensure([], () => r(require('@views/imgs')), 'imgs');
+const filters = (r) => require.ensure([], () => r(require('@views/filters')), 'filters');
 
 export default new Router({
   routes: [
@@ -151,6 +152,11 @@ export default new Router({
           path: 'imgs',
           name: 'imgs',
           component: imgs,
+        },
+        {
+          path: 'filters',
+          name: 'filters',
+          component: filters,
         },
       ],
     },

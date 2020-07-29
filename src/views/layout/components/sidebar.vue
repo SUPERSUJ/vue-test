@@ -134,6 +134,10 @@ export default {
           name: 'image',
           path: '/imgs',
         },
+        {
+          name: '动态filters',
+          path: '/filters',
+        },
       ],
     };
   },

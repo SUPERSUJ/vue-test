@@ -5,6 +5,7 @@ import 'babel-polyfill';
 import 'normalize.css/normalize.css';
 import '@/styles/index.scss';
 import { init, bind } from '@mixins/notifyVisibilityChange';
+import sysParamsMixin from '@mixins/sysParamsMixin';
 import App from './App';
 import router from './router';
 import './directive'; // 安装自定义指令
@@ -29,6 +30,7 @@ const vm = new Vue({
   el: '#app',
   router,
   store,
+  mixins: [sysParamsMixin],
   components: { App },
   template: '<App/>',
 });
