@@ -27,6 +27,7 @@ const drag = (r) => require.ensure([], () => r(require('@views/drag')), 'drag');
 const buttoncss = (r) => require.ensure([], () => r(require('@views/buttoncss')), 'buttoncss');
 const imgs = (r) => require.ensure([], () => r(require('@views/imgs')), 'imgs');
 const filters = (r) => require.ensure([], () => r(require('@views/filters')), 'filters');
+const virtuallist = (r) => require.ensure([], () => r(require('@views/virtuallist')), 'virtuallist');
 
 export default new Router({
   routes: [
@@ -157,6 +158,11 @@ export default new Router({
           path: 'filters',
           name: 'filters',
           component: filters,
+        },
+        {
+          path: 'virtuallist',
+          name: 'virtuallist',
+          component: virtuallist,
         },
       ],
     },

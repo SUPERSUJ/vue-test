@@ -138,6 +138,10 @@ export default {
           name: '动态filters',
           path: '/filters',
         },
+        {
+          name: '虚拟列表',
+          path: '/virtuallist',
+        },
       ],
     };
   },
