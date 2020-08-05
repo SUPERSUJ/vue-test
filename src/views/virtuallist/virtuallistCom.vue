@@ -1,5 +1,6 @@
 <template>
   <div ref="list" class="infinite-list-container" @scroll.passive="scrollEvent">
+    <!-- 下面这个div是撑起虚拟列表的总高度，使得list产生滚动条 -->
     <div class="infinite-list-phantom" :style="{ height: listHeight + 'px' }">23424</div>
     <div class="infinite-list" :style="{ transform: getTransform }">
       <div
@@ -21,18 +22,25 @@
 export default {
   name: 'virtuallistCom',
   props: {
+    // 列表所有数据
     allData: {
       type: Array,
       required: true,
     },
+    // 每个数据块的高度
     itemSize: {
       type: Number,
       default: 200,
     },
+    // 可视区域上下的缓冲数量
+    bufferCount: {
+      type: Number,
+      default: 10,
+    },
   },
   data() {
     return {
-      // 可视区域高度
+      // list可视区域高度
       screenHeight: 0,
       // 偏移量
       startOffset: 0,
@@ -47,9 +55,10 @@ export default {
     listHeight() {
       return this.allData.length * this.itemSize;
     },
-    // 可显示的列表项数
+    // 可显示的列表项数，Math.ceil向上取整
+    // 加this.bufferCount(10) 避免滑动过快,list 下方出现白屏
     visibleCount() {
-      return Math.ceil(this.screenHeight / this.itemSize) + 10;
+      return Math.ceil(this.screenHeight / this.itemSize) + this.bufferCount;
     },
     // 偏移量对应的style
     getTransform() {
@@ -57,7 +66,9 @@ export default {
     },
     // 获取真实显示列表数据
     visibleData() {
-      return this.allData.slice(this.start, Math.min(this.end, this.allData.length));
+      let start = this.start >= this.bufferCount ? this.start - this.bufferCount : 0;
+      let end = Math.min(this.end, this.allData.length);
+      return this.allData.slice(start, end);
     },
   },
   mounted() {
@@ -69,12 +80,16 @@ export default {
     scrollEvent() {
       // 当前滚动位置
       let scrollTop = this.$refs.list.scrollTop;
-      // 此时的开始索引
+      // 此时的开始索引，注意是向下取整Math.floor
       this.start = Math.floor(scrollTop / this.itemSize);
       // 此时的结束索引
       this.end = this.start + this.visibleCount;
-      // 此时偏移量
-      this.startOffset = scrollTop - (scrollTop % this.itemSize);
+      // 这里是关键，infinite-list 的偏移量; infinite-list是绝对定位，不是fixed
+      if (this.start < this.bufferCount) {
+        this.startOffset = 0;
+      } else {
+        this.startOffset = scrollTop - (this.bufferCount * this.itemSize + scrollTop % this.itemSize);
+      }
     },
   },
 };

@@ -2,13 +2,7 @@
   <div ref="list" :style="{height}" class="infinite-list-container" @scroll="scrollEvent($event)">
     <div ref="phantom" class="infinite-list-phantom"></div>
     <div ref="content" class="infinite-list">
-      <div
-        class="infinite-list-item"
-        ref="items"
-        :id="item._index"
-        :key="item._index"
-        v-for="item in visibleData"
-      >
+      <div class="infinite-list-item" ref="items" :id="item._index" :key="item._index" v-for="item in visibleData">
         <slot ref="slot" :item="item.item"></slot>
       </div>
     </div>
@@ -17,7 +11,7 @@
 
 <script>
 export default {
-  name: 'virtuallistCom2',
+  name: 'VirtualList',
   props: {
     // 所有列表数据
     listData: {
@@ -28,6 +22,11 @@ export default {
     estimatedItemSize: {
       type: Number,
       required: true,
+    },
+    // 缓冲区比例
+    bufferScale: {
+      type: Number,
+      default: 1,
     },
     // 容器高度 100px or 50vh
     height: {
@@ -47,12 +46,21 @@ export default {
     visibleCount() {
       return Math.ceil(this.screenHeight / this.estimatedItemSize);
     },
+    aboveCount() {
+      return Math.min(this.start, this.bufferScale * this.visibleCount);
+    },
+    belowCount() {
+      return Math.min(this.listData.length - this.end, this.bufferScale * this.visibleCount);
+    },
     visibleData() {
-      return this._listData.slice(this.start, this.end);
+      let start = this.start - this.aboveCount;
+      let end = this.end + this.belowCount;
+      return this._listData.slice(start, end);
     },
   },
   created() {
     this.initPositions();
+    window.vm = this;
   },
   mounted() {
     this.screenHeight = this.$el.clientHeight;
@@ -60,7 +68,7 @@ export default {
     this.end = this.start + this.visibleCount;
   },
   updated() {
-    this.$nextTick(function() {
+    this.$nextTick(function () {
       if (!this.$refs.items || !this.$refs.items.length) {
         return;
       }
@@ -80,28 +88,30 @@ export default {
       // 起始索引
       start: 0,
       // 结束索引
-      end: 0
+      end: 0,
     };
   },
   methods: {
     initPositions() {
-      this.positions = this.listData.map((d, index) => ({
-        index,
-        height: this.estimatedItemSize,
-        top: index * this.estimatedItemSize,
-        bottom: (index + 1) * this.estimatedItemSize,
-      }));
+      this.positions = this.listData.map((d, index) => {
+        return {
+          index,
+          height: this.estimatedItemSize,
+          top: index * this.estimatedItemSize,
+          bottom: (index + 1) * this.estimatedItemSize,
+        };
+      });
     },
     // 获取列表起始索引
     getStartIndex(scrollTop = 0) {
       // 二分法查找
       return this.binarySearch(this.positions, scrollTop);
     },
-    // 二分法查找
     binarySearch(list, value) {
       let start = 0;
       let end = list.length - 1;
       let tempIndex = null;
+
       while (start <= end) {
         let midIndex = parseInt((start + end) / 2, 10);
         let midValue = list[midIndex].bottom;
@@ -121,7 +131,7 @@ export default {
     // 获取列表项的当前尺寸
     updateItemsSize() {
       let nodes = this.$refs.items;
-      nodes.forEach(node => {
+      nodes.forEach((node) => {
         let rect = node.getBoundingClientRect();
         let height = rect.height;
         let index = +node.id.slice(1);
@@ -131,7 +141,6 @@ export default {
         if (dValue) {
           this.positions[index].bottom = this.positions[index].bottom - dValue;
           this.positions[index].height = height;
-
           for (let k = index + 1; k < this.positions.length; k++) {
             this.positions[k].top = this.positions[k - 1].bottom;
             this.positions[k].bottom = this.positions[k].bottom - dValue;
@@ -141,8 +150,14 @@ export default {
     },
     // 获取当前的偏移量
     setStartOffset() {
-      let startOffset =
-        this.start >= 1 ? this.positions[this.start - 1].bottom : 0;
+      let startOffset;
+      if (this.start >= 1) {
+        // 这里是关键
+        let size = this.positions[this.start].top - (this.positions[this.start - this.aboveCount] ? this.positions[this.start - this.aboveCount].top : 0);
+        startOffset = this.positions[this.start - 1].bottom - size;
+      } else {
+        startOffset = 0;
+      }
       this.$refs.content.style.transform = `translate3d(0,${startOffset}px,0)`;
     },
     // 滚动事件
@@ -190,4 +205,5 @@ export default {
   border-bottom: 1px solid #999;
   /* height:200px; */
 }
+
 </style>

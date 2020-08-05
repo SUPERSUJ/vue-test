@@ -15,7 +15,7 @@ export default {
   name: 'virtuallist',
   data() {
     return {
-      allData: Array(300).fill(0).map((item, i) => ({ name: i, id: i })),
+      allData: Array(500).fill(0).map((item, i) => ({ name: i, id: i })),
       itemSize: 100,
     };
   },
