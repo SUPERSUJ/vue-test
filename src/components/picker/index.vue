@@ -41,7 +41,8 @@ export default {
   data() {
     return {
       cols: [
-        new Array(500).fill().map((_, i) => {
+        // 生成数据
+        new Array(300).fill().map((_, i) => {
           let year = i + 2019 + '';
           return {
             id: year,
@@ -49,7 +50,7 @@ export default {
           };
         }),
       ],
-      isTouchEnd: false,
+      isTouchEnd: false, // 移动，为false; 触摸结束为true，设置transition-duration，开启动画
       offsetY: 0,
       stopInertiaMove: true,
       touchStartY: 0,
@@ -74,12 +75,16 @@ export default {
       }
     },
     touchstart(e) {
+      if (!this.stopInertiaMove) {
+        console.log('------------------------ aaaaaaaaaaaaaaaaaaaaaa');
+        this.initPos = this.offsetY;
+      }
       this.isTouchEnd = false;
       this.touchStartY = e.touches[0].pageY;
-      // 惯性
-      this.stopInertiaMove = true;
-      this.lastMoveStart = this.touchStartY;
-      this.lastMoveTime = Date.now();
+
+      this.stopInertiaMove = true; // 停止惯性运动
+      this.lastMoveStart = this.touchStartY; // 惯性开始运动坐标
+      this.lastMoveTime = Date.now(); // 获取时间戳，惯性开始时间戳，单位毫秒 ms
     },
     touchmove(e) {
       this.isTouchEnd = false;
@@ -89,15 +94,18 @@ export default {
       // 当initPos为36, touchMoveY - this.touchStartY + 90 - initPos = translate
       // translate = 90 - (this.touchStartY - touchMoveY + this.initPos)
       this.offsetY = this.touchStartY - touchMoveY + this.initPos;
+      // -36 是上面的负一层，不允许超过负一层的距离
       if (this.offsetY < -36) {
         this.offsetY = -36;
       }
+      // 36 * this.cols[this.colIndex].length 是下面的负一层，不允许超过负一层的距离
       if (this.offsetY > 36 * this.cols[this.colIndex].length) {
         this.offsetY = 36 * this.cols[this.colIndex].length;
       }
       // 惯性
       let nowTime = Date.now();
       this.stopInertiaMove = true;
+      // 运动每隔300毫秒，重新标记 惯性开始坐标和开始时间戳
       if (nowTime - this.lastMoveTime > 300) {
         this.lastMoveTime = nowTime;
         this.lastMoveStart = touchMoveY;
@@ -110,28 +118,30 @@ export default {
       let touchEndY = e.changedTouches[0].pageY;
       let touchChangedY = this.touchStartY - touchEndY + this.initPos;
       let touchMovedY = touchChangedY % 36 > 36 / 2 ? Math.ceil(touchChangedY / 36) * 36 : Math.floor(touchChangedY / 36) * 36;
-      console.log('touchMovedY: ', touchMovedY);
-      if (touchMovedY < 0) {
+      if (touchMovedY < 0) { // 就是第一个数据距离父级上边界大于90，此时touchMovedY 为负数，设置offsetY为0
         this.isTouchEnd = true;
         this.offsetY = 0;
         this.initPos = this.offsetY;
         return;
       }
-      if (touchMovedY > (this.cols[this.colIndex].length - 1) * 36) {
+      if (touchMovedY > (this.cols[this.colIndex].length - 1) * 36) { // 当最后一条数据，离开中间的位置
         this.isTouchEnd = true;
         this.offsetY = (this.cols[this.colIndex].length - 1) * 36;
         this.initPos = this.offsetY;
         return;
       }
+      // 下面是关键代码
+      // 没有到临界点，全部走惯性运动
       let nowTime = Date.now();
-      let v = (touchEndY - this.lastMoveStart) / (nowTime - this.lastMoveTime); // 滑动平均速度 速度 下拉是正，上拉是负
+      let v = (touchEndY - this.lastMoveStart) / (nowTime - this.lastMoveTime); // 滑动平均速度 速度 下移是正，上移是负
       console.log('速度 v: ', v);
       this.stopInertiaMove = false;
-      let dir = v > 0 ? -1 : 1; // dir 下拉是负，上拉是正
-      let deceleration = dir * 0.01; // deceleration 下拉是负，上拉是正
-      let duration = v / deceleration; // 下拉是负，上拉是负，都是负 , v 越小 ，duration越小，每帧移动距离dist 越小
+      let dir = v > 0 ? -1 : 1; // dir 下移是负，上移是正
+      let deceleration = dir * 0.01; // deceleration 下移是负，上移是正
+      let duration = v / deceleration; // 下移是负，上移是负，都是负 , v 越小 ，duration越小，每帧移动距离dist 越小
       console.log('duration 时间: ', duration);
-      let dist = v * duration / 2; // 下拉是负，上拉是正 duration / 2 类似于时间，如果去掉 / 2, 第一帧移动的距离很大，随便滑动跨度是50个
+      let dist = v * duration / 2; // 下移是负，上移是正 duration / 2 类似于时间，如果去掉 / 2, 第一帧移动的距离很大，随便滑动跨度是50个
+      console.log('touchMovedY: ', touchMovedY);
       let inertiaMove = () => {
         console.log('dist: ', dist);
         if (this.stopInertiaMove) {

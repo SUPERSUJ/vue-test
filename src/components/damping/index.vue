@@ -126,7 +126,7 @@
 const LOADING_HEIGHT = 40;
 
 const step = [0, 20, 40, 60, 80, 100];
-const rate = [1, 0.9, 0.7, 0.4, 0.1, 0.02];
+const rate = [1, 0.5, 0.4, 0.2, 0.1, 0.02];
 const stepMap = [];
 for (let i = 0, len = step.length - 1; i < len; i++) {
   let ret = 0;
@@ -169,7 +169,7 @@ export default {
       touching: false,
       markFirstDistance: -1,
       rectY: 0,
-      loading_text: '下拉更新',
+      loading_text: '下拉刷新',
     };
   },
   beforeDestroy() {
@@ -187,6 +187,7 @@ export default {
       }
       let distanceY = e.touches[0].pageY - this.touchStartY;
       let $box = this.$refs.box;
+      console.log('distanceY: ', distanceY);
       console.log('$box.scrollTop: ', $box.scrollTop);
       console.log('$box.clientHeight: ', $box.clientHeight);
       console.log('$box.scrollHeight: ', $box.scrollHeight);
@@ -200,21 +201,34 @@ export default {
         }
       }
       let moveY = distanceY - this.markFirstDistance;
+      console.log('moveY: ', moveY);
       console.log('this.markFirstDistance: ', this.markFirstDistance);
       console.log('this.loading: ', this.loading);
       if (this.markFirstDistance > 0 && !this.loading) {
+        console.log('enter');
         if (moveY < 0) {
+          console.log('enter moveY < 0');
           this.height = 0;
         } else {
+          console.log('enter moveY < 0 else ');
           this.height = Math.min(moveY, LOADING_HEIGHT);
         }
-        // moveY 临界点是60，才会触发阻尼
-        let overflowHeight = Math.max(0, moveY - LOADING_HEIGHT) - this.height / 2;
-        if (overflowHeight > 0) {
+        console.log('this.height: ', this.height);
+
+        // let overflowHeight = Math.max(0, moveY - LOADING_HEIGHT) - this.height / 2;
+        // console.log('==========overflowHeight: ', overflowHeight);
+        // if (overflowHeight > 0) {
+        if (this.height === LOADING_HEIGHT) {
+          let overflowHeight = moveY - this.height;
+          console.log('==========overflowHeight: ', overflowHeight);
+          // moveY 临界点是60，才会触发阻尼
           this.loading_text = '释放加载';
           this.borderBottom = damping(overflowHeight);
           console.log('this.height: ', this.height);
           console.log('this.borderBottom: ', this.borderBottom);
+        } else {
+          this.loading_text = '下拉刷新';
+          this.borderBottom = 0;
         }
       }
       this.rectY = moveY;
@@ -241,7 +255,7 @@ export default {
       this.touchStartY = 0;
       this.markFirstDistance = -1;
       this.loading = false;
-      this.loading_text = '下拉更新';
+      this.loading_text = '下拉刷新';
     },
     getData() {
       this.loading = true;
@@ -285,5 +299,4 @@ ul {
   border-bottom-style: solid;
   border-bottom-color: transparent;
 }
-
 </style>
