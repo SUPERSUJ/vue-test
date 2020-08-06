@@ -110,6 +110,7 @@ export default {
       let touchEndY = e.changedTouches[0].pageY;
       let touchChangedY = this.touchStartY - touchEndY + this.initPos;
       let touchMovedY = touchChangedY % 36 > 36 / 2 ? Math.ceil(touchChangedY / 36) * 36 : Math.floor(touchChangedY / 36) * 36;
+      console.log('touchMovedY: ', touchMovedY);
       if (touchMovedY < 0) {
         this.isTouchEnd = true;
         this.offsetY = 0;
@@ -131,7 +132,6 @@ export default {
       let duration = v / deceleration; // 下拉是负，上拉是负，都是负 , v 越小 ，duration越小，每帧移动距离dist 越小
       console.log('duration 时间: ', duration);
       let dist = v * duration / 2; // 下拉是负，上拉是正 duration / 2 类似于时间，如果去掉 / 2, 第一帧移动的距离很大，随便滑动跨度是50个
-      console.log('touchMovedY: ', touchMovedY);
       let inertiaMove = () => {
         console.log('dist: ', dist);
         if (this.stopInertiaMove) {
@@ -145,13 +145,16 @@ export default {
         }
         console.log('this.offsetY: ', this.offsetY);
         this.offsetY = touchMovedY + dist;
+        console.log('this.offsetY: ', this.offsetY);
         dist /= 1.1; // 每帧移动距离越来越小
         touchMovedY += dist;
         if (touchMovedY < 0) {
+          console.log('-------------------- enter first');
           touchMovedY = 0;
         }
         if (touchMovedY > (this.cols[this.colIndex].length - 1) * 36) {
           touchMovedY = (this.cols[this.colIndex].length - 1) * 36;
+          console.log('-------------------- enter last');
         }
         window.requestAnimationFrame(inertiaMove);
       };

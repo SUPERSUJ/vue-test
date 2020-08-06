@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import getThreeMonthDates, { addZero } from '@js/calendar';
+import getThreeMonthDates, { paddingZero } from '@js/calendar';
 
 export default {
   name: 'phoneCalendar',
@@ -53,7 +53,7 @@ export default {
       month,
       date,
     };
-    this.currTimeStr = `${year}${addZero(month)}${addZero(date)}`;
+    this.currTimeStr = `${year}${paddingZero(month)}${paddingZero(date)}`;
     console.log('this.currTimeStr: ', this.currTimeStr);
     return {
       calendarOfMonthShow: getThreeMonthDates(currTime),

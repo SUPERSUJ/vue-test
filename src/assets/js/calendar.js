@@ -2,7 +2,7 @@ function isDate(date) {
   return Object.prototype.toString.call(date) === '[object Date]';
 }
 
-export function addZero(num) {
+export function paddingZero(num) {
   return num < 10 ? '0' + num : num;
 }
 
@@ -29,22 +29,22 @@ function getMonthDatas(year, month) {
     let date = daysInPrevMonth - i + 1;
     currentMonthData.push({
       year: prevYear,
-      month: addZero(prevMonth),
-      date: addZero(date),
+      month: paddingZero(prevMonth),
+      date: paddingZero(date),
       text: date,
     });
   }
   currentMonthData.push({
     year: year,
-    month: addZero(month),
+    month: paddingZero(month),
     date: '01',
     text: `${month + 1}月`,
   });
   for (let i = 2; i <= daysInCurrMonth; i++) {
     currentMonthData.push({
       year: year,
-      month: addZero(month),
-      date: addZero(i),
+      month: paddingZero(month),
+      date: paddingZero(i),
       text: i,
     });
   }
@@ -52,15 +52,15 @@ function getMonthDatas(year, month) {
   if (diffDays > 0) {
     currentMonthData.push({
       year: nextYear,
-      month: addZero(nextMonth),
+      month: paddingZero(nextMonth),
       date: '01',
       text: `${nextMonth + 1}月`,
     });
     for (let i = 2, len = i + diffDays - 1; i < len; i++) {
       currentMonthData.push({
         year: nextYear,
-        month: addZero(nextMonth),
-        date: addZero(i),
+        month: paddingZero(nextMonth),
+        date: paddingZero(i),
         text: i,
       });
     }
