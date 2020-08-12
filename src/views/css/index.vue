@@ -41,6 +41,9 @@
       <el-tab-pane label="下拉" name="damping">
         <damping></damping>
       </el-tab-pane>
+      <el-tab-pane label="左滑删除" name="touchdel">
+        <touchdel></touchdel>
+      </el-tab-pane>
     </el-tabs>
   </div>
 </template>
@@ -50,6 +53,7 @@ import { mapActions, mapMutations, mapGetters } from 'vuex';
 import phoneCalender from '@components/phoneCalendar';
 import picker from '@components/picker';
 import damping from '@components/damping';
+import touchdel from '@/components/touchdel';
 import tooltip from './components/tooltip';
 import percentageCircle from './components/percentageCircle';
 import inputGroup from './components/inputGroup';
@@ -60,7 +64,7 @@ export default {
   name: 'css',
   data() {
     return {
-      activeName: 'tooltip',
+      activeName: 'touchdel',
     };
   },
   computed: {
@@ -82,6 +86,7 @@ export default {
     phoneCalender,
     picker,
     damping,
+    touchdel,
   },
 };
 </script>
