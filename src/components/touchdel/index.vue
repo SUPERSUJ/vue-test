@@ -8,8 +8,8 @@
         :data-type="activeSwiper === index ? 1 : 0"
         class="list-item">
         <div
-          @touchstart="touchStart"
-          @touchend="touchEnd"
+          @touchstart.capture="touchStart"
+          @touchend.capture="touchEnd"
           @click="skip"
           :data-index="index"
           class="list-box"
@@ -21,14 +21,14 @@
             <p class="time">{{item.time}}</p>
           </div>
         </div>
-        <div class="delete" @click="deleteItem" :data-index="index"></div>
+        <div class="delete" @click="deleteItem" :data-index="index">删除</div>
       </li>
     </ul>
   </div>
 </template>
 
 <script>
-const IMG_URL = 'https://user-gold-cdn.xitu.io/2019/1/6/168232792d428ce0?imageView2/1/w/100/h/100/q/85/format/webp/interlace/1';
+const IMG_URL = require('../../assets/imgs/avatar.jpg');
 
 export default {
   name: 'touchdel',
@@ -66,23 +66,26 @@ export default {
   },
   methods: {
     touchStart(e) {
+      console.log('touchStart e:', e);
       this.startX = e.touches[0].clientX;
-      console.log('startX: ', this.startX);
     },
     touchEnd(e) {
       console.log(e);
+      console.log('touches: ', JSON.parse(JSON.stringify(e.touches)));
+      console.log('changedTouches: ', JSON.parse(JSON.stringify(e.changedTouches)));
+      console.log('targetTouches: ', JSON.parse(JSON.stringify(e.targetTouches)));
       let endX = e.changedTouches[0].clientX;
-      console.log('endX: ', endX);
       let diff = this.startX - endX;
-      console.log('diff: ', diff);
       if (diff > 30) {
-        this.activeSwiper = e.currentTarget.dataset.index;
+        this.activeSwiper = parseInt(e.currentTarget.dataset.index, 10);
       } else if (diff < -30) {
         this.activeSwiper = -1;
       }
       this.startX = 0;
     },
-    skip() {},
+    skip() {
+      this.activeSwiper = -1;
+    },
     deleteItem(e) {
       let index = e.currentTarget.dataset.index;
       this.activeSwiper = -1;
@@ -107,13 +110,13 @@ p {
   list-style: none;
 }
 
-.page-title{
+.page-title {
   text-align: center;
   font-size: 17px;
   padding: 10px 15px;
   position: relative;
 }
-.page-title:after{
+.page-title:after {
   content: " ";
   position: absolute;
   left: 0;
@@ -128,19 +131,19 @@ p {
   transform: scaleY(0.5);
   z-index: 2;
 }
-.list-item{
+.list-item {
   position: relative;
   height: 80px;
   -webkit-transition: all 0.2s;
   transition: all 0.2s;
 }
-.list-item[data-type="0"]{
+.list-item[data-type="0"] {
   transform: translate3d(0,0,0);
 }
-.list-item[data-type="1"]{
+.list-item[data-type="1"] {
   transform: translate3d(-100px,0,0);
 }
-.list-item:after{
+.list-item:after {
   content: " ";
   position: absolute;
   left: 10px;
@@ -155,7 +158,7 @@ p {
   transform: scaleY(0.5);
   z-index: 2;
 }
-.list-box{
+.list-box {
   padding: 10px;
   background: #fff;
   display: flex;
@@ -170,12 +173,12 @@ p {
   left: 0;
   font-size: 0;
 }
-.list-item .list-img{
+.list-item .list-img {
   display: block;
   width: 50px;
   height: 50px;
 }
-.list-item .list-content{
+.list-item .list-content {
   padding: 5px 0 5px 10px;
   position: relative;
   flex: 1;
@@ -184,7 +187,7 @@ p {
   justify-content: center;
   overflow: hidden;
 }
-.list-item .title{
+.list-item .title {
   display: block;
   color: #333;
   overflow: hidden;
@@ -193,7 +196,7 @@ p {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.list-item .tips{
+.list-item .tips {
   display: block;
   overflow: hidden;
   font-size: 12px;
@@ -202,7 +205,7 @@ p {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.list-item .time{
+.list-item .time {
   display: block;
   font-size: 12px;
   position: absolute;
@@ -210,7 +213,7 @@ p {
   top: 5px;
   color: #666;
 }
-.list-item .delete{
+.list-item .delete {
   width: 100px;
   height: 80px;
   background: #ff4949;

@@ -48,25 +48,35 @@ export default new Router({
       children: [
         {
           path: 'account-list',
-          name: '账号列表',
+          name: 'accountList',
           component: accountList,
           meta: {
             keepAlive: true,
           },
         },
+        // {
+        //   path: 'role-list',
+        //   name: 'roleList',
+        //   component: roleList,
+        // },
+        {
+          path: 'role-list/:id',
+          name: 'roleList',
+          component: roleList,
+        },
         {
           path: 'role-list',
-          name: '角色列表',
+          name: 'roleList',
           component: roleList,
         },
         {
           path: 'user-list',
-          name: '用户列表',
+          name: 'userList',
           component: userList,
         },
         {
           path: 'user-group',
-          name: '用户组列表',
+          name: 'userGroupList',
           component: userGroupList,
         },
         {

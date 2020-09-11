@@ -1,10 +1,14 @@
 <template>
   <el-row>
+    <div>testMapGetters: {{ testMapGetters }}</div>
     <el-form :inline="true" :model="form" @submit.native.prevent>
       <el-form-item label="">
         <el-input size="small" v-model.trim="form.search" @keyup.enter.native="search">
           <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
         </el-input>
+      </el-form-item>
+      <el-form-item label="">
+        <el-button type="primary" size="small" @click="toRole">toRole</el-button>
       </el-form-item>
     </el-form>
     <el-table v-loading="loadTableData" :data="tableData">
@@ -46,7 +50,10 @@
 </template>
 
 <script>
+import { createNamespacedHelpers } from 'vuex';
 import tmpl from './tmpl';
+
+const { mapState } = createNamespacedHelpers('app');
 
 export default {
   name: 'accountList',
@@ -105,6 +112,13 @@ export default {
       },
       resetLoad: false,
     };
+  },
+  computed: {
+    // ...mapState({
+    //   'opened': state => state.app.sidebar.opened,
+    // }),
+    // ...mapState('app', ['testMapGetters']),
+    ...mapState(['testMapGetters']),
   },
   watch: {
     $route: {
@@ -170,6 +184,14 @@ export default {
         } else {
           return false;
         }
+      });
+    },
+    toRole() {
+      this.$router.push({
+        name: 'roleList',
+        params: {
+          id: '12',
+        },
       });
     },
   },

@@ -119,8 +119,7 @@ export default {
     };
   },
   methods: {
-    arraySpanMethod({ row, column, rowIndex, columnIndex }) {
-      console.log(row, column, rowIndex, columnIndex);
+    arraySpanMethod({ row, columnIndex }) {
       if (row.type === 'parent') {
         if (columnIndex === 0) {
           return [1, 5];

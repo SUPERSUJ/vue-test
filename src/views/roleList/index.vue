@@ -1,5 +1,6 @@
 <template>
   <el-row>
+    <el-button type="primary" size="small" @click="toRoleList">toRoleList</el-button>
     <!-- <el-form :inline="true" :model="form" @submit.native.prevent>
       <el-form-item label="">
         <el-input size="small" v-model.trim="form.search" @keyup.enter.native="search">
@@ -62,8 +63,19 @@ export default {
       addLoad: false,
     };
   },
+  watch: {
+    $route(val) {
+      console.log('watch $route val: ', val);
+    },
+  },
+  beforeRouteUpdate(to, from, next) {
+    console.log('beforeRouteUpdate to: ', to);
+    console.log('beforeRouteUpdate from: ', from);
+    next();
+  },
   created() {
     this.getTableData();
+    console.log('this.$route: ', this.$route);
   },
   mounted() {
     console.log('this: ', this);
@@ -105,6 +117,14 @@ export default {
         this.dialogAdd = false;
         this.getTableData();
       }
+    },
+    toRoleList() {
+      this.$router.push({
+        name: 'roleList',
+        params: {
+          id: 555,
+        },
+      });
     },
   },
   components: {

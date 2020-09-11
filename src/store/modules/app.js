@@ -1,6 +1,7 @@
 import store from 'store';
 
 const app = {
+  namespaced: true,
   state: {
     sidebar: {
       opened: store.get('sidebarStatus') || false, // 导航栏状态, false是展开
