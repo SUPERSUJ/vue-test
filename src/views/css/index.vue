@@ -44,6 +44,12 @@
       <el-tab-pane label="左滑删除" name="touchdel">
         <touchdel></touchdel>
       </el-tab-pane>
+      <el-tab-pane label="转盘" name="roundTurntableController">
+        <round-turntable-controller></round-turntable-controller>
+      </el-tab-pane>
+      <el-tab-pane label="canvas例子" name="testCanvas">
+        <test-canvas></test-canvas>
+      </el-tab-pane>
     </el-tabs>
   </div>
 </template>
@@ -54,17 +60,19 @@ import phoneCalender from '@components/phoneCalendar';
 import picker from '@components/picker';
 import damping from '@components/damping';
 import touchdel from '@/components/touchdel';
+import roundTurntableController from '@/components/roundTurntableController';
 import tooltip from './components/tooltip';
 import percentageCircle from './components/percentageCircle';
 import inputGroup from './components/inputGroup';
 import loading from './components/loading';
 import imgList from './components/imgList';
+import testCanvas from './components/testCanvas';
 
 export default {
   name: 'css',
   data() {
     return {
-      activeName: 'touchdel',
+      activeName: 'roundTurntableController',
     };
   },
   computed: {
@@ -87,6 +95,8 @@ export default {
     picker,
     damping,
     touchdel,
+    roundTurntableController,
+    testCanvas,
   },
 };
 </script>

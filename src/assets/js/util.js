@@ -500,3 +500,7 @@ export function getScrollLeft() {
 export function getRandomInt(n) {
   return Math.floor(Math.random() * (n + 1));
 }
+
+export function randomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
